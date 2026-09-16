@@ -1,0 +1,41 @@
+.memory {
+    width: 100%;
+    max-width: 1200px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 40px 24px;
+
+    .memory-header {
+        text-align: center;
+        margin-bottom: 32px;
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+    }
+}
+
+.game-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 32px;
+
+    .moves,
+    .pairs {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 18px;
+
+        strong {
+            font-size: 20px;
+        }
+    }
+}
