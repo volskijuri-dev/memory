@@ -117,12 +117,25 @@ function renderCards(): void {
         const cardElement = document.createElement("button");
 
         cardElement.classList.add("memory-card");
-
         cardElement.type = "button";
-
         cardElement.dataset.id = card.id.toString();
+        cardElement.setAttribute("aria-label", "Memory-Karte");
 
-        cardElement.textContent = "?";
+        const cardInner = document.createElement("span");
+        cardInner.classList.add("memory-card__inner");
+
+        const cardBack = document.createElement("span");
+        cardBack.classList.add("memory-card__back");
+        cardBack.textContent = "?";
+
+        const cardFront = document.createElement("span");
+        cardFront.classList.add("memory-card__front");
+        cardFront.textContent = card.symbol;
+
+        cardInner.appendChild(cardBack);
+        cardInner.appendChild(cardFront);
+
+        cardElement.appendChild(cardInner);
 
         cardElement.addEventListener("click", () => {
             flipCard(cardElement, card);
@@ -154,7 +167,6 @@ function flipCard(
         return;
     }
 
-    cardElement.textContent = card.symbol;
     cardElement.classList.add("flipped");
 
     if (firstCard === null) {
@@ -242,12 +254,10 @@ function handleNoMatch(): void {
 
     setTimeout(() => {
         if (firstCard) {
-            firstCard.textContent = "?";
             firstCard.classList.remove("flipped");
         }
 
         if (secondCard) {
-            secondCard.textContent = "?";
             secondCard.classList.remove("flipped");
         }
 

@@ -40,6 +40,17 @@
     }
 }
 
+.game-board {
+    width: 100%;
+    max-width: 600px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+
+    margin: 0 auto;
+}
+
 @media (max-width: 600px) {
     .memory {
         padding: 24px 16px;
