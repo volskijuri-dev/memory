@@ -1,0 +1,54 @@
+.memory-card {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: none;
+    border-radius: 16px;
+
+    background: #2f3e5c;
+    color: #ffffff;
+
+    font-size: 42px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    &.flipped {
+        background: #ffffff;
+        color: #222222;
+        transform: rotateY(180deg);
+    }
+
+    &.matched {
+        background: #dff5e1;
+        color: #222222;
+        cursor: default;
+    }
+}
+
+.game-board {
+    width: 100%;
+    max-width: 600px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+
+    margin: 0 auto;
+}

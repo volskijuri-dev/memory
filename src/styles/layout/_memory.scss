@@ -39,3 +39,18 @@
         }
     }
 }
+
+@media (max-width: 600px) {
+    .memory {
+        padding: 24px 16px;
+
+        .game-board {
+            gap: 10px;
+        }
+    }
+
+    .memory-card {
+        border-radius: 10px;
+        font-size: 30px;
+    }
+}
