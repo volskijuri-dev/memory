@@ -181,6 +181,53 @@
             </div>
         </div>
 
+        <!-- GAME OVER SCREEN -->
+        <section class="result-screen hidden" id="game-over-screen">
+
+            <h2 class="result-screen__game-over">
+                GAME OVER
+            </h2>
+
+            <p class="result-screen__label">
+                Final score
+            </p>
+
+            <div class="result-screen__score">
+                <span class="result-screen__score-blue">
+                    🔵
+                    <strong id="final-blue-score">0</strong>
+                </span>
+
+                <span class="result-screen__score-orange">
+                    🟠
+                    <strong id="final-orange-score">0</strong>
+                </span>
+            </div>
+
+        </section>
+
+
+        <!-- WINNER / DRAW SCREEN -->
+        <section class="result-screen hidden" id="winner-screen">
+
+            <p class="result-screen__label" id="winner-label">
+                The winner is
+            </p>
+
+            <h2 class="result-screen__winner" id="winner-name">
+                Blue Player
+            </h2>
+
+            <div class="result-screen__icon" id="result-icon">
+                🏆
+            </div>
+
+            <button class="result-screen__home" id="home-button" type="button">
+                Home
+            </button>
+
+        </section>
+
     </main>
 
     <script type="module" src="/src/scripts/script.ts"></script>

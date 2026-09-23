@@ -82,6 +82,46 @@ const confirmExitButton =
         "#confirm-exit-button"
     );
 
+const gameOverScreen =
+    document.querySelector<HTMLElement>(
+        "#game-over-screen"
+    );
+
+const winnerScreen =
+    document.querySelector<HTMLElement>(
+        "#winner-screen"
+    );
+
+const finalBlueScoreElement =
+    document.querySelector<HTMLElement>(
+        "#final-blue-score"
+    );
+
+const finalOrangeScoreElement =
+    document.querySelector<HTMLElement>(
+        "#final-orange-score"
+    );
+
+const winnerLabelElement =
+    document.querySelector<HTMLElement>(
+        "#winner-label"
+    );
+
+const winnerNameElement =
+    document.querySelector<HTMLElement>(
+        "#winner-name"
+    );
+
+const resultIconElement =
+    document.querySelector<HTMLElement>(
+        "#result-icon"
+    );
+
+const homeButton =
+    document.querySelector<HTMLButtonElement>(
+        "#home-button"
+    );
+
 const blueScoreElement =
     document.querySelector<HTMLElement>("#blue-score");
 
@@ -115,7 +155,15 @@ if (
     !currentPlayerElement ||
     !selectedThemeElement ||
     !selectedPlayerElement ||
-    !selectedSizeElement
+    !selectedSizeElement ||
+    !gameOverScreen ||
+    !winnerScreen ||
+    !finalBlueScoreElement ||
+    !finalOrangeScoreElement ||
+    !winnerLabelElement ||
+    !winnerNameElement ||
+    !resultIconElement ||
+    !homeButton
 ) {
     throw new Error(
         "Ein benötigtes HTML-Element wurde nicht gefunden."
@@ -139,6 +187,18 @@ const currentPlayerDisplay = currentPlayerElement;
 const selectedThemeDisplay = selectedThemeElement;
 const selectedPlayerDisplay = selectedPlayerElement;
 const selectedSizeDisplay = selectedSizeElement;
+
+const gameOver = gameOverScreen;
+const winner = winnerScreen;
+
+const finalBlueScore = finalBlueScoreElement;
+const finalOrangeScore = finalOrangeScoreElement;
+
+const winnerLabel = winnerLabelElement;
+const winnerName = winnerNameElement;
+const resultIcon = resultIconElement;
+
+const home = homeButton;
 
 
 let currentTheme: ThemeName = "coding";
@@ -560,31 +620,104 @@ function resetTurn(): void {
 }
 
 function checkGameEnd(): void {
-    const pairCount =
-        boardSize / 2;
+    const pairCount = boardSize / 2;
 
     if (foundPairs !== pairCount) {
         return;
     }
 
+    boardLocked = true;
+
     setTimeout(() => {
-        let message: string;
+        showGameOver();
+    }, 600);
+}
 
-        if (blueScore > orangeScore) {
-            message =
-                `Blue gewinnt ${blueScore}:${orangeScore}!`;
-        } else if (
-            orangeScore > blueScore
-        ) {
-            message =
-                `Orange gewinnt ${orangeScore}:${blueScore}!`;
-        } else {
-            message =
-                `Unentschieden ${blueScore}:${orangeScore}!`;
-        }
+function showGameOver(): void {
+    game.classList.add("hidden");
 
-        alert(message);
-    }, 400);
+    finalBlueScore.textContent =
+        blueScore.toString();
+
+    finalOrangeScore.textContent =
+        orangeScore.toString();
+
+    gameOver.classList.remove("hidden");
+
+    setTimeout(() => {
+        showWinner();
+    }, 1800);
+}
+
+
+function showWinner(): void {
+    gameOver.classList.add("hidden");
+
+    winner.classList.remove(
+        "hidden",
+        "result-screen--draw"
+    );
+
+    if (blueScore > orangeScore) {
+        winnerLabel.textContent =
+            "The winner is";
+
+        winnerName.textContent =
+            "Blue Player";
+
+        winnerName.style.color =
+            "#1da1f2";
+
+        resultIcon.textContent =
+            "🏆";
+
+        return;
+    }
+
+    if (orangeScore > blueScore) {
+        winnerLabel.textContent =
+            "The winner is";
+
+        winnerName.textContent =
+            "Orange Player";
+
+        winnerName.style.color =
+            "#ff8a00";
+
+        resultIcon.textContent =
+            "🏆";
+
+        return;
+    }
+
+    winner.classList.add(
+        "result-screen--draw"
+    );
+
+    winnerLabel.textContent =
+        "It's a";
+
+    winnerName.textContent =
+        "DRAW";
+
+    winnerName.style.color =
+        "";
+
+    resultIcon.textContent =
+        "⚖️";
+}
+
+function goHome(): void {
+    winner.classList.add("hidden");
+    gameOver.classList.add("hidden");
+
+    settings.classList.remove("hidden");
+
+    board.innerHTML = "";
+
+    resetTurn();
+
+    boardLocked = false;
 }
 
 function openExitModal(): void {
@@ -627,6 +760,11 @@ backToGame.addEventListener(
 confirmExit.addEventListener(
     "click",
     exitGame
+);
+
+home.addEventListener(
+    "click",
+    goHome
 );
 
 updateSettingsSummary();
