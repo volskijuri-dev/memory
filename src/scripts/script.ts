@@ -15,11 +15,6 @@ type MemoryTheme = {
     symbols: string[];
 };
 
-
-/* -------------------------
-   THEMES
-------------------------- */
-
 const themes: Record<ThemeName, MemoryTheme> = {
     coding: {
         name: "Code vibes",
@@ -59,10 +54,6 @@ const themes: Record<ThemeName, MemoryTheme> = {
 };
 
 
-/* -------------------------
-   HTML ELEMENTE
-------------------------- */
-
 const settingsElement =
     document.querySelector<HTMLElement>("#settings");
 
@@ -77,6 +68,19 @@ const startButton =
 
 const exitButton =
     document.querySelector<HTMLButtonElement>("#exit-button");
+
+const exitModal =
+    document.querySelector<HTMLElement>("#exit-modal");
+
+const backToGameButton =
+    document.querySelector<HTMLButtonElement>(
+        "#back-to-game-button"
+    );
+
+const confirmExitButton =
+    document.querySelector<HTMLButtonElement>(
+        "#confirm-exit-button"
+    );
 
 const blueScoreElement =
     document.querySelector<HTMLElement>("#blue-score");
@@ -103,6 +107,9 @@ if (
     !gameBoard ||
     !startButton ||
     !exitButton ||
+    !exitModal ||
+    !backToGameButton ||
+    !confirmExitButton ||
     !blueScoreElement ||
     !orangeScoreElement ||
     !currentPlayerElement ||
@@ -115,17 +122,15 @@ if (
     );
 }
 
-
-/* -------------------------
-   SICHERE REFERENZEN
-------------------------- */
-
 const settings = settingsElement;
 const game = gameElement;
 const board = gameBoard;
 
 const start = startButton;
 const exit = exitButton;
+const modal = exitModal;
+const backToGame = backToGameButton;
+const confirmExit = confirmExitButton;
 
 const blueScoreDisplay = blueScoreElement;
 const orangeScoreDisplay = orangeScoreElement;
@@ -135,10 +140,6 @@ const selectedThemeDisplay = selectedThemeElement;
 const selectedPlayerDisplay = selectedPlayerElement;
 const selectedSizeDisplay = selectedSizeElement;
 
-
-/* -------------------------
-   SPIELZUSTAND
-------------------------- */
 
 let currentTheme: ThemeName = "coding";
 let startingPlayer: Player = "blue";
@@ -159,10 +160,6 @@ let orangeScore = 0;
 let foundPairs = 0;
 let boardLocked = false;
 
-
-/* -------------------------
-   SETTINGS AUSLESEN
-------------------------- */
 
 function getSelectedTheme(): ThemeName {
     const input =
@@ -203,11 +200,6 @@ function getSelectedBoardSize(): BoardSize {
     return 16;
 }
 
-
-/* -------------------------
-   SETTINGS ANZEIGE
-------------------------- */
-
 function updateSettingsSummary(): void {
     const theme = getSelectedTheme();
     const player = getSelectedPlayer();
@@ -223,11 +215,6 @@ function updateSettingsSummary(): void {
         `${size} cards`;
 }
 
-
-/* -------------------------
-   SETTINGS EVENTS
-------------------------- */
-
 const settingInputs =
     document.querySelectorAll<HTMLInputElement>(
         'input[type="radio"]'
@@ -239,11 +226,6 @@ settingInputs.forEach((input) => {
         updateSettingsSummary
     );
 });
-
-
-/* -------------------------
-   SPIEL STARTEN
-------------------------- */
 
 function startGame(): void {
     currentTheme = getSelectedTheme();
@@ -275,11 +257,6 @@ function startGame(): void {
     game.classList.remove("hidden");
 }
 
-
-/* -------------------------
-   KARTEN ERSTELLEN
-------------------------- */
-
 function createCards(): void {
     const pairCount = boardSize / 2;
 
@@ -305,11 +282,6 @@ function createCards(): void {
     );
 }
 
-
-/* -------------------------
-   KARTEN MISCHEN
-------------------------- */
-
 function shuffleCards(): void {
     for (
         let i = cards.length - 1;
@@ -325,16 +297,11 @@ function shuffleCards(): void {
             cards[i],
             cards[randomIndex]
         ] = [
-            cards[randomIndex],
-            cards[i]
-        ];
+                cards[randomIndex],
+                cards[i]
+            ];
     }
 }
-
-
-/* -------------------------
-   BOARD GRÖSSE
-------------------------- */
 
 function setBoardLayout(): void {
     board.classList.remove(
@@ -347,11 +314,6 @@ function setBoardLayout(): void {
         `game-board--${boardSize}`
     );
 }
-
-
-/* -------------------------
-   KARTEN ANZEIGEN
-------------------------- */
 
 function renderCards(): void {
     board.innerHTML = "";
@@ -423,11 +385,6 @@ function renderCards(): void {
     });
 }
 
-
-/* -------------------------
-   KARTE UMDREHEN
-------------------------- */
-
 function flipCard(
     cardElement: HTMLButtonElement,
     card: MemoryCard
@@ -461,11 +418,6 @@ function flipCard(
 
     checkForMatch();
 }
-
-
-/* -------------------------
-   KARTEN VERGLEICHEN
-------------------------- */
 
 function checkForMatch(): void {
     if (
@@ -513,11 +465,6 @@ function checkForMatch(): void {
     }
 }
 
-
-/* -------------------------
-   PAAR GEFUNDEN
-------------------------- */
-
 function handleMatch(
     firstCardData: MemoryCard,
     secondCardData: MemoryCard
@@ -538,11 +485,6 @@ function handleMatch(
     checkGameEnd();
 }
 
-
-/* -------------------------
-   PUNKT VERGEBEN
-------------------------- */
-
 function addPoint(): void {
     if (currentPlayer === "blue") {
         blueScore++;
@@ -552,11 +494,6 @@ function addPoint(): void {
 
     updateScores();
 }
-
-
-/* -------------------------
-   KEIN PAAR
-------------------------- */
 
 function handleNoMatch(): void {
     boardLocked = true;
@@ -578,11 +515,6 @@ function handleNoMatch(): void {
     }, 800);
 }
 
-
-/* -------------------------
-   SPIELER WECHSELN
-------------------------- */
-
 function switchPlayer(): void {
     currentPlayer =
         currentPlayer === "blue"
@@ -591,11 +523,6 @@ function switchPlayer(): void {
 
     updateCurrentPlayer();
 }
-
-
-/* -------------------------
-   ANZEIGEN AKTUALISIEREN
-------------------------- */
 
 function updateScores(): void {
     blueScoreDisplay.textContent =
@@ -624,11 +551,6 @@ function updateCurrentPlayer(): void {
     );
 }
 
-
-/* -------------------------
-   SPIELZUG ZURÜCKSETZEN
-------------------------- */
-
 function resetTurn(): void {
     firstCard = null;
     secondCard = null;
@@ -636,11 +558,6 @@ function resetTurn(): void {
     firstCardId = null;
     secondCardId = null;
 }
-
-
-/* -------------------------
-   SPIELENDE
-------------------------- */
 
 function checkGameEnd(): void {
     const pairCount =
@@ -670,12 +587,17 @@ function checkGameEnd(): void {
     }, 400);
 }
 
+function openExitModal(): void {
+    modal.classList.remove("hidden");
+}
 
-/* -------------------------
-   SPIEL VERLASSEN
-------------------------- */
+
+function closeExitModal(): void {
+    modal.classList.add("hidden");
+}
 
 function exitGame(): void {
+    closeExitModal();
     game.classList.add("hidden");
     settings.classList.remove("hidden");
 
@@ -686,11 +608,6 @@ function exitGame(): void {
     boardLocked = false;
 }
 
-
-/* -------------------------
-   BUTTON EVENTS
-------------------------- */
-
 start.addEventListener(
     "click",
     startGame
@@ -698,12 +615,18 @@ start.addEventListener(
 
 exit.addEventListener(
     "click",
-    exitGame
+    openExitModal
+);
+
+backToGame.addEventListener(
+    "click",
+    closeExitModal
 );
 
 
-/* -------------------------
-   INITIALISIERUNG
-------------------------- */
+confirmExit.addEventListener(
+    "click",
+    exitGame
+);
 
 updateSettingsSummary();
