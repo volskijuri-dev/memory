@@ -1,0 +1,147 @@
+.game {
+    width: 100%;
+    max-width: 1100px;
+    min-height: 720px;
+
+    margin: 0 auto;
+    padding: 32px 80px 60px;
+
+    background: #2d5868;
+
+    &__header {
+        width: 100%;
+
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+
+        gap: 30px;
+
+        padding: 18px 24px;
+        margin-bottom: 50px;
+
+        border-radius: 8px;
+
+        background: #586681;
+        color: #ffffff;
+    }
+
+    &__scores {
+        justify-self: start;
+
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        padding: 7px 12px;
+
+        border-radius: 5px;
+
+        background: #ffffff;
+        color: #222222;
+
+        span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+
+            font-weight: 600;
+        }
+    }
+
+    &__player {
+        justify-self: center;
+
+        font-size: 20px;
+        font-weight: 600;
+
+        white-space: nowrap;
+
+        strong {
+            margin-left: 6px;
+        }
+    }
+
+    #exit-button {
+        justify-self: end;
+
+        padding: 10px 16px;
+
+        border: 2px solid #e51c74;
+        border-radius: 7px;
+
+        background: transparent;
+        color: #ffffff;
+
+        font-weight: 600;
+
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease;
+
+        &:hover {
+            background: #e51c74;
+            transform: translateY(-2px);
+        }
+    }
+
+    .game-board {
+        margin: 0 auto;
+
+        &--16 {
+            max-width: 390px;
+        }
+
+        &--24,
+        &--36 {
+            max-width: 560px;
+        }
+    }
+
+    .memory-card {
+        &__back {
+            background: linear-gradient(
+                145deg,
+                #35d2c0,
+                #269b91
+            );
+
+            color: rgba(255, 255, 255, 0.45);
+
+            border-radius: 4px;
+        }
+
+        &__front {
+            border-radius: 4px;
+        }
+    }
+}
+
+
+.player-blue {
+    color: #31b9ff;
+}
+
+.player-orange {
+    color: #ff9d32;
+}
+
+
+@media (max-width: 800px) {
+    .game {
+        padding: 24px 16px;
+
+        &__header {
+            grid-template-columns: 1fr;
+            gap: 16px;
+
+            text-align: center;
+        }
+
+        &__scores,
+        &__player,
+        #exit-button {
+            justify-self: center;
+        }
+    }
+}

@@ -1,35 +1,149 @@
 import "../styles/style.scss";
 
+type ThemeName = "coding" | "gaming" | "academy" | "food";
+type Player = "blue" | "orange";
+type BoardSize = 16 | 24 | 36;
+
 type MemoryCard = {
     id: number;
     symbol: string;
     isMatched: boolean;
 };
 
-const gameBoard = document.querySelector<HTMLElement>("#game-board");
-const movesElement = document.querySelector<HTMLElement>("#moves");
-const pairsElement = document.querySelector<HTMLElement>("#pairs");
-const restartButton = document.querySelector<HTMLButtonElement>("#restart-button");
+type MemoryTheme = {
+    name: string;
+    symbols: string[];
+};
 
-if (!gameBoard || !movesElement || !pairsElement || !restartButton) {
-    throw new Error("Ein benötigtes HTML-Element wurde nicht gefunden.");
+
+/* -------------------------
+   THEMES
+------------------------- */
+
+const themes: Record<ThemeName, MemoryTheme> = {
+    coding: {
+        name: "Code vibes",
+        symbols: [
+            "💻", "⌨️", "🖱️", "🧑‍💻", "⚙️", "🗄️",
+            "🌐", "🐞", "📱", "🔧", "📂", "🔒",
+            "🚀", "🧠", "💾", "🔗", "🖥️", "📡"
+        ]
+    },
+
+    gaming: {
+        name: "Gaming",
+        symbols: [
+            "🎮", "🕹️", "👾", "🏆", "🎯", "⚔️",
+            "🛡️", "💎", "👑", "🔥", "💣", "🚗",
+            "🏎️", "🧩", "🎲", "🐉", "🦸", "🥇"
+        ]
+    },
+
+    academy: {
+        name: "DA Projects",
+        symbols: [
+            "📚", "📝", "💻", "🎓", "📊", "🧑‍💻",
+            "📋", "🗂️", "🔨", "⚙️", "🚀", "🌐",
+            "📱", "🧠", "💡", "🛠️", "📈", "🏁"
+        ]
+    },
+
+    food: {
+        name: "Foods",
+        symbols: [
+            "🍕", "🍔", "🌮", "🍟", "🍣", "🍩",
+            "🍪", "🥗", "🍝", "🥐", "🍓", "🍉",
+            "🥑", "🍰", "🥞", "🍎", "🍌", "🥝"
+        ]
+    }
+};
+
+
+/* -------------------------
+   HTML ELEMENTE
+------------------------- */
+
+const settingsElement =
+    document.querySelector<HTMLElement>("#settings");
+
+const gameElement =
+    document.querySelector<HTMLElement>("#game");
+
+const gameBoard =
+    document.querySelector<HTMLElement>("#game-board");
+
+const startButton =
+    document.querySelector<HTMLButtonElement>("#start-button");
+
+const exitButton =
+    document.querySelector<HTMLButtonElement>("#exit-button");
+
+const blueScoreElement =
+    document.querySelector<HTMLElement>("#blue-score");
+
+const orangeScoreElement =
+    document.querySelector<HTMLElement>("#orange-score");
+
+const currentPlayerElement =
+    document.querySelector<HTMLElement>("#current-player");
+
+const selectedThemeElement =
+    document.querySelector<HTMLElement>("#selected-theme");
+
+const selectedPlayerElement =
+    document.querySelector<HTMLElement>("#selected-player");
+
+const selectedSizeElement =
+    document.querySelector<HTMLElement>("#selected-size");
+
+
+if (
+    !settingsElement ||
+    !gameElement ||
+    !gameBoard ||
+    !startButton ||
+    !exitButton ||
+    !blueScoreElement ||
+    !orangeScoreElement ||
+    !currentPlayerElement ||
+    !selectedThemeElement ||
+    !selectedPlayerElement ||
+    !selectedSizeElement
+) {
+    throw new Error(
+        "Ein benötigtes HTML-Element wurde nicht gefunden."
+    );
 }
 
-const board = gameBoard;
-const movesDisplay = movesElement;
-const pairsDisplay = pairsElement;
-const restart = restartButton;
 
-const symbols: string[] = [
-    "🍎",
-    "🍌",
-    "🍇",
-    "🍓",
-    "🍒",
-    "🥝",
-    "🍋",
-    "🍉"
-];
+/* -------------------------
+   SICHERE REFERENZEN
+------------------------- */
+
+const settings = settingsElement;
+const game = gameElement;
+const board = gameBoard;
+
+const start = startButton;
+const exit = exitButton;
+
+const blueScoreDisplay = blueScoreElement;
+const orangeScoreDisplay = orangeScoreElement;
+const currentPlayerDisplay = currentPlayerElement;
+
+const selectedThemeDisplay = selectedThemeElement;
+const selectedPlayerDisplay = selectedPlayerElement;
+const selectedSizeDisplay = selectedSizeElement;
+
+
+/* -------------------------
+   SPIELZUSTAND
+------------------------- */
+
+let currentTheme: ThemeName = "coding";
+let startingPlayer: Player = "blue";
+let currentPlayer: Player = "blue";
+let boardSize: BoardSize = 16;
 
 let cards: MemoryCard[] = [];
 
@@ -39,10 +153,92 @@ let secondCard: HTMLButtonElement | null = null;
 let firstCardId: number | null = null;
 let secondCardId: number | null = null;
 
-let moves: number = 0;
-let foundPairs: number = 0;
+let blueScore = 0;
+let orangeScore = 0;
 
-let boardLocked: boolean = false;
+let foundPairs = 0;
+let boardLocked = false;
+
+
+/* -------------------------
+   SETTINGS AUSLESEN
+------------------------- */
+
+function getSelectedTheme(): ThemeName {
+    const input =
+        document.querySelector<HTMLInputElement>(
+            'input[name="theme"]:checked'
+        );
+
+    return (input?.value as ThemeName) ?? "coding";
+}
+
+
+function getSelectedPlayer(): Player {
+    const input =
+        document.querySelector<HTMLInputElement>(
+            'input[name="player"]:checked'
+        );
+
+    return (input?.value as Player) ?? "blue";
+}
+
+
+function getSelectedBoardSize(): BoardSize {
+    const input =
+        document.querySelector<HTMLInputElement>(
+            'input[name="board-size"]:checked'
+        );
+
+    const size = Number(input?.value);
+
+    if (size === 24) {
+        return 24;
+    }
+
+    if (size === 36) {
+        return 36;
+    }
+
+    return 16;
+}
+
+
+/* -------------------------
+   SETTINGS ANZEIGE
+------------------------- */
+
+function updateSettingsSummary(): void {
+    const theme = getSelectedTheme();
+    const player = getSelectedPlayer();
+    const size = getSelectedBoardSize();
+
+    selectedThemeDisplay.textContent =
+        themes[theme].name;
+
+    selectedPlayerDisplay.textContent =
+        player === "blue" ? "Blue" : "Orange";
+
+    selectedSizeDisplay.textContent =
+        `${size} cards`;
+}
+
+
+/* -------------------------
+   SETTINGS EVENTS
+------------------------- */
+
+const settingInputs =
+    document.querySelectorAll<HTMLInputElement>(
+        'input[type="radio"]'
+    );
+
+settingInputs.forEach((input) => {
+    input.addEventListener(
+        "change",
+        updateSettingsSummary
+    );
+});
 
 
 /* -------------------------
@@ -50,7 +246,13 @@ let boardLocked: boolean = false;
 ------------------------- */
 
 function startGame(): void {
-    moves = 0;
+    currentTheme = getSelectedTheme();
+    startingPlayer = getSelectedPlayer();
+    currentPlayer = startingPlayer;
+    boardSize = getSelectedBoardSize();
+
+    blueScore = 0;
+    orangeScore = 0;
     foundPairs = 0;
 
     firstCard = null;
@@ -61,12 +263,16 @@ function startGame(): void {
 
     boardLocked = false;
 
-    movesDisplay.textContent = "0";
-    pairsDisplay.textContent = "0";
+    updateScores();
+    updateCurrentPlayer();
 
     createCards();
     shuffleCards();
+    setBoardLayout();
     renderCards();
+
+    settings.classList.add("hidden");
+    game.classList.remove("hidden");
 }
 
 
@@ -75,18 +281,28 @@ function startGame(): void {
 ------------------------- */
 
 function createCards(): void {
+    const pairCount = boardSize / 2;
+
+    const selectedSymbols =
+        themes[currentTheme].symbols.slice(
+            0,
+            pairCount
+        );
+
     const duplicatedSymbols = [
-        ...symbols,
-        ...symbols
+        ...selectedSymbols,
+        ...selectedSymbols
     ];
 
-    cards = duplicatedSymbols.map((symbol, index) => {
-        return {
-            id: index + 1,
-            symbol: symbol,
-            isMatched: false
-        };
-    });
+    cards = duplicatedSymbols.map(
+        (symbol, index) => {
+            return {
+                id: index + 1,
+                symbol,
+                isMatched: false
+            };
+        }
+    );
 }
 
 
@@ -95,14 +311,41 @@ function createCards(): void {
 ------------------------- */
 
 function shuffleCards(): void {
-    for (let i = cards.length - 1; i > 0; i--) {
-        const randomIndex = Math.floor(Math.random() * (i + 1));
+    for (
+        let i = cards.length - 1;
+        i > 0;
+        i--
+    ) {
+        const randomIndex =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
 
-        [cards[i], cards[randomIndex]] = [
+        [
+            cards[i],
+            cards[randomIndex]
+        ] = [
             cards[randomIndex],
             cards[i]
         ];
     }
+}
+
+
+/* -------------------------
+   BOARD GRÖSSE
+------------------------- */
+
+function setBoardLayout(): void {
+    board.classList.remove(
+        "game-board--16",
+        "game-board--24",
+        "game-board--36"
+    );
+
+    board.classList.add(
+        `game-board--${boardSize}`
+    );
 }
 
 
@@ -114,32 +357,67 @@ function renderCards(): void {
     board.innerHTML = "";
 
     cards.forEach((card) => {
-        const cardElement = document.createElement("button");
+        const cardElement =
+            document.createElement("button");
 
-        cardElement.classList.add("memory-card");
+        cardElement.classList.add(
+            "memory-card"
+        );
+
         cardElement.type = "button";
-        cardElement.dataset.id = card.id.toString();
-        cardElement.setAttribute("aria-label", "Memory-Karte");
 
-        const cardInner = document.createElement("span");
-        cardInner.classList.add("memory-card__inner");
+        cardElement.dataset.id =
+            card.id.toString();
 
-        const cardBack = document.createElement("span");
-        cardBack.classList.add("memory-card__back");
-        cardBack.textContent = "?";
+        cardElement.setAttribute(
+            "aria-label",
+            "Memory-Karte"
+        );
 
-        const cardFront = document.createElement("span");
-        cardFront.classList.add("memory-card__front");
-        cardFront.textContent = card.symbol;
+        const cardInner =
+            document.createElement("span");
+
+        cardInner.classList.add(
+            "memory-card__inner"
+        );
+
+
+        const cardBack =
+            document.createElement("span");
+
+        cardBack.classList.add(
+            "memory-card__back"
+        );
+
+        cardBack.textContent = "</>";
+
+
+        const cardFront =
+            document.createElement("span");
+
+        cardFront.classList.add(
+            "memory-card__front"
+        );
+
+        cardFront.textContent =
+            card.symbol;
+
 
         cardInner.appendChild(cardBack);
         cardInner.appendChild(cardFront);
 
         cardElement.appendChild(cardInner);
 
-        cardElement.addEventListener("click", () => {
-            flipCard(cardElement, card);
-        });
+
+        cardElement.addEventListener(
+            "click",
+            () => {
+                flipCard(
+                    cardElement,
+                    card
+                );
+            }
+        );
 
         board.appendChild(cardElement);
     });
@@ -169,6 +447,7 @@ function flipCard(
 
     cardElement.classList.add("flipped");
 
+
     if (firstCard === null) {
         firstCard = cardElement;
         firstCardId = card.id;
@@ -176,11 +455,9 @@ function flipCard(
         return;
     }
 
+
     secondCard = cardElement;
     secondCardId = card.id;
-
-    moves++;
-    movesDisplay.textContent = moves.toString();
 
     checkForMatch();
 }
@@ -200,20 +477,37 @@ function checkForMatch(): void {
         return;
     }
 
-    const firstCardData = cards.find(
-        (card) => card.id === firstCardId
-    );
 
-    const secondCardData = cards.find(
-        (card) => card.id === secondCardId
-    );
+    const firstCardData =
+        cards.find(
+            (card) =>
+                card.id === firstCardId
+        );
 
-    if (!firstCardData || !secondCardData) {
+
+    const secondCardData =
+        cards.find(
+            (card) =>
+                card.id === secondCardId
+        );
+
+
+    if (
+        !firstCardData ||
+        !secondCardData
+    ) {
         return;
     }
 
-    if (firstCardData.symbol === secondCardData.symbol) {
-        handleMatch(firstCardData, secondCardData);
+
+    if (
+        firstCardData.symbol ===
+        secondCardData.symbol
+    ) {
+        handleMatch(
+            firstCardData,
+            secondCardData
+        );
     } else {
         handleNoMatch();
     }
@@ -237,11 +531,26 @@ function handleMatch(
 
     foundPairs++;
 
-    pairsDisplay.textContent = foundPairs.toString();
+    addPoint();
 
     resetTurn();
 
     checkGameEnd();
+}
+
+
+/* -------------------------
+   PUNKT VERGEBEN
+------------------------- */
+
+function addPoint(): void {
+    if (currentPlayer === "blue") {
+        blueScore++;
+    } else {
+        orangeScore++;
+    }
+
+    updateScores();
 }
 
 
@@ -253,18 +562,66 @@ function handleNoMatch(): void {
     boardLocked = true;
 
     setTimeout(() => {
-        if (firstCard) {
-            firstCard.classList.remove("flipped");
-        }
+        firstCard?.classList.remove(
+            "flipped"
+        );
 
-        if (secondCard) {
-            secondCard.classList.remove("flipped");
-        }
+        secondCard?.classList.remove(
+            "flipped"
+        );
 
         resetTurn();
 
+        switchPlayer();
+
         boardLocked = false;
     }, 800);
+}
+
+
+/* -------------------------
+   SPIELER WECHSELN
+------------------------- */
+
+function switchPlayer(): void {
+    currentPlayer =
+        currentPlayer === "blue"
+            ? "orange"
+            : "blue";
+
+    updateCurrentPlayer();
+}
+
+
+/* -------------------------
+   ANZEIGEN AKTUALISIEREN
+------------------------- */
+
+function updateScores(): void {
+    blueScoreDisplay.textContent =
+        blueScore.toString();
+
+    orangeScoreDisplay.textContent =
+        orangeScore.toString();
+}
+
+
+function updateCurrentPlayer(): void {
+    currentPlayerDisplay.textContent =
+        currentPlayer === "blue"
+            ? "Blue"
+            : "Orange";
+
+    currentPlayerDisplay.classList.remove(
+        "player-blue",
+        "player-orange"
+    );
+
+    currentPlayerDisplay.classList.add(
+        currentPlayer === "blue"
+            ? "player-blue"
+            : "player-orange"
+    );
 }
 
 
@@ -282,31 +639,71 @@ function resetTurn(): void {
 
 
 /* -------------------------
-   SPIELENDE PRÜFEN
+   SPIELENDE
 ------------------------- */
 
 function checkGameEnd(): void {
-    if (foundPairs === symbols.length) {
-        setTimeout(() => {
-            alert(
-                `Geschafft! Du hast alle Paare in ${moves} Zügen gefunden.`
-            );
-        }, 300);
+    const pairCount =
+        boardSize / 2;
+
+    if (foundPairs !== pairCount) {
+        return;
     }
+
+    setTimeout(() => {
+        let message: string;
+
+        if (blueScore > orangeScore) {
+            message =
+                `Blue gewinnt ${blueScore}:${orangeScore}!`;
+        } else if (
+            orangeScore > blueScore
+        ) {
+            message =
+                `Orange gewinnt ${orangeScore}:${blueScore}!`;
+        } else {
+            message =
+                `Unentschieden ${blueScore}:${orangeScore}!`;
+        }
+
+        alert(message);
+    }, 400);
 }
 
 
 /* -------------------------
-   NEU STARTEN
+   SPIEL VERLASSEN
 ------------------------- */
 
-restart.addEventListener("click", () => {
-    startGame();
-});
+function exitGame(): void {
+    game.classList.add("hidden");
+    settings.classList.remove("hidden");
+
+    board.innerHTML = "";
+
+    resetTurn();
+
+    boardLocked = false;
+}
 
 
 /* -------------------------
-   ERSTES SPIEL STARTEN
+   BUTTON EVENTS
 ------------------------- */
 
-startGame();
+start.addEventListener(
+    "click",
+    startGame
+);
+
+exit.addEventListener(
+    "click",
+    exitGame
+);
+
+
+/* -------------------------
+   INITIALISIERUNG
+------------------------- */
+
+updateSettingsSummary();

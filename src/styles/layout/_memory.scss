@@ -42,13 +42,27 @@
 
 .game-board {
     width: 100%;
-    max-width: 600px;
+    margin: 0 auto;
 
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    justify-content: center;
 
-    margin: 0 auto;
+    gap: 4px;
+
+    &--16 {
+        max-width: 500px;
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    &--24 {
+        max-width: 650px;
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    &--36 {
+        max-width: 650px;
+        grid-template-columns: repeat(6, 1fr);
+    }
 }
 
 @media (max-width: 600px) {

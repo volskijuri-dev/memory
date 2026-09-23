@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Memory</title>
 </head>
 
@@ -12,38 +11,156 @@
 
     <main class="memory">
 
-        <header class="memory-header">
-            <h1>Memory</h1>
-            <p>Finde alle passenden Kartenpaare!</p>
-        </header>
+        <!-- SETTINGS -->
+        <section class="settings" id="settings">
 
-        <section class="game-info">
-            <div class="moves">
-                <span>Züge:</span>
-                <strong id="moves">0</strong>
+            <h1 class="settings__title">Settings</h1>
+
+            <div class="settings__content">
+
+                <div class="settings__options">
+
+                    <!-- GAME THEME -->
+                    <fieldset class="settings__group">
+                        <legend>🎨 Game themes</legend>
+
+                        <label>
+                            <input type="radio" name="theme" value="coding" checked>
+                            Code vibes theme
+                        </label>
+
+                        <label>
+                            <input type="radio" name="theme" value="gaming">
+                            Gaming theme
+                        </label>
+
+                        <label>
+                            <input type="radio" name="theme" value="academy">
+                            DA Projects theme
+                        </label>
+
+                        <label>
+                            <input type="radio" name="theme" value="food">
+                            Foods theme
+                        </label>
+                    </fieldset>
+
+
+                    <!-- PLAYER -->
+                    <fieldset class="settings__group">
+                        <legend>♙ Choose player</legend>
+
+                        <label>
+                            <input type="radio" name="player" value="blue" checked>
+                            Blue
+                        </label>
+
+                        <label>
+                            <input type="radio" name="player" value="orange">
+                            Orange
+                        </label>
+                    </fieldset>
+
+
+                    <!-- BOARD SIZE -->
+                    <fieldset class="settings__group">
+                        <legend>▧ Board size</legend>
+
+                        <label>
+                            <input type="radio" name="board-size" value="16" checked>
+                            16 cards
+                        </label>
+
+                        <label>
+                            <input type="radio" name="board-size" value="24">
+                            24 cards
+                        </label>
+
+                        <label>
+                            <input type="radio" name="board-size" value="36">
+                            36 cards
+                        </label>
+                    </fieldset>
+
+                </div>
+
+
+                <!-- PREVIEW -->
+                <div class="settings__preview">
+
+                    <div class="preview-card">
+                        <span class="preview-card__back">
+                            &lt;/&gt;
+                        </span>
+
+                        <span class="preview-card__front">
+                            Git
+                        </span>
+                    </div>
+
+                    <div class="settings__summary">
+                        <span id="selected-theme">
+                            Code vibes
+                        </span>
+
+                        <span id="selected-player">
+                            Blue
+                        </span>
+
+                        <span id="selected-size">
+                            16 cards
+                        </span>
+
+                        <button id="start-button" type="button">
+                            ▶ Start
+                        </button>
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="pairs">
-                <span>Paare:</span>
-                <strong id="pairs">0</strong>
-            </div>
-
-            <button id="restart-button" type="button">
-                Neu starten
-            </button>
         </section>
 
-        <section
-            class="game-board"
-            id="game-board"
-            aria-label="Memory Spielfeld"
-        >
-            <!-- Karten werden mit TypeScript erzeugt -->
+
+        <!-- GAME -->
+        <section class="game hidden" id="game">
+
+            <header class="game__header">
+
+                <div class="game__scores">
+                    <span>
+                        🔵 Blue
+                        <strong id="blue-score">0</strong>
+                    </span>
+
+                    <span>
+                        🟠 Orange
+                        <strong id="orange-score">0</strong>
+                    </span>
+                </div>
+
+                <div class="game__player">
+                    Current player:
+                    <strong id="current-player">
+                        Blue
+                    </strong>
+                </div>
+
+                <button id="exit-button" type="button">
+                    ⇱ Exit game
+                </button>
+
+            </header>
+
+            <section class="game-board" id="game-board" aria-label="Memory Spielfeld">
+            </section>
+
         </section>
 
     </main>
 
-    <script type="module" src="src/scripts/script.ts"></script>
+    <script type="module" src="/src/scripts/script.ts"></script>
 
 </body>
 

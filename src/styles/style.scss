@@ -1,5 +1,9 @@
 @use "./base/reset";
 @use "./base/base";
+
 @use "./layout/memory";
+@use "./layout/settings";
+@use "./layout/game";
+
 @use "./components/button";
 @use "./components/card";
