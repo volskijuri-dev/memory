@@ -19,6 +19,12 @@
         }
     }
 
+    &__image {
+        width: 70%;
+        height: 70%;
+        object-fit: contain;
+    }
+
     &__inner {
         position: relative;
 

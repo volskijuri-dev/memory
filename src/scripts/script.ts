@@ -1,4 +1,22 @@
 import "../styles/style.scss";
+import gitIcon from "../assets/image/code-vibes/git.svg?url";
+import typescriptIcon from "../assets/image/code-vibes/typescript.svg?url";
+import angularIcon from "../assets/image/code-vibes/angular.svg?url";
+import bootstrapIcon from "../assets/image/code-vibes/bootstrap.svg?url";
+import cssIcon from "../assets/image/code-vibes/css.svg?url";
+import djangoIcon from "../assets/image/code-vibes/django.svg?url";
+import firebaseIcon from "../assets/image/code-vibes/firebase.svg?url";
+import githubIcon from "../assets/image/code-vibes/github.svg?url";
+import group16Icon from "../assets/image/code-vibes/group16.svg?url";
+import group17Icon from "../assets/image/code-vibes/group17.svg?url";
+import htmlIcon from "../assets/image/code-vibes/html.svg?url";
+import javascriptIcon from "../assets/image/code-vibes/javascript.svg?url";
+import nodejsIcon from "../assets/image/code-vibes/nodejs.svg?url";
+import pythonIcon from "../assets/image/code-vibes/python.svg?url";
+import sassIcon from "../assets/image/code-vibes/sass.svg?url";
+import sqlIcon from "../assets/image/code-vibes/sql.svg?url";
+import terminalIcon from "../assets/image/code-vibes/terminal.svg?url";
+import vscodeIcon from "../assets/image/code-vibes/vscode.svg?url";
 
 type ThemeName = "coding" | "gaming" | "academy" | "food";
 type Player = "blue" | "orange";
@@ -19,9 +37,9 @@ const themes: Record<ThemeName, MemoryTheme> = {
     coding: {
         name: "Code vibes",
         symbols: [
-            "💻", "⌨️", "🖱️", "🧑‍💻", "⚙️", "🗄️",
-            "🌐", "🐞", "📱", "🔧", "📂", "🔒",
-            "🚀", "🧠", "💾", "🔗", "🖥️", "📡"
+            gitIcon, typescriptIcon, angularIcon, bootstrapIcon, cssIcon, djangoIcon,
+            firebaseIcon, githubIcon, group16Icon, group17Icon, htmlIcon, javascriptIcon,
+            nodejsIcon, pythonIcon, sassIcon, sqlIcon, terminalIcon, vscodeIcon
         ]
     },
 
@@ -421,9 +439,43 @@ function renderCards(): void {
             "memory-card__front"
         );
 
-        cardFront.textContent =
-            card.symbol;
+        const imageSymbols = [
+            gitIcon,
+            typescriptIcon,
+            angularIcon,
+            bootstrapIcon,
+            cssIcon,
+            djangoIcon,
+            firebaseIcon,
+            githubIcon,
+            group16Icon,
+            group17Icon,
+            htmlIcon,
+            javascriptIcon,
+            nodejsIcon,
+            pythonIcon,
+            sassIcon,
+            sqlIcon,
+            terminalIcon,
+            vscodeIcon
+        ];
 
+        if (imageSymbols.includes(card.symbol)) {
+            const cardImage =
+                document.createElement("img");
+
+            cardImage.src = card.symbol;
+            cardImage.alt = "Memory card symbol";
+
+            cardImage.classList.add(
+                "memory-card__image"
+            );
+
+            cardFront.appendChild(cardImage);
+        } else {
+            cardFront.textContent =
+                card.symbol;
+        }
 
         cardInner.appendChild(cardBack);
         cardInner.appendChild(cardFront);
