@@ -25,6 +25,14 @@
         object-fit: contain;
     }
 
+    &__image {
+        width: 70%;
+        height: 70%;
+        object-fit: contain;
+        display: block;
+        pointer-events: none;
+    }
+
     &__inner {
         position: relative;
 

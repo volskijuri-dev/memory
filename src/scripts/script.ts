@@ -18,6 +18,64 @@ import sqlIcon from "../assets/image/code-vibes/sql.svg?url";
 import terminalIcon from "../assets/image/code-vibes/terminal.svg?url";
 import vscodeIcon from "../assets/image/code-vibes/vscode.svg?url";
 
+import bananaIcon from "../assets/image/gaming/banana.svg?url";
+import circleGuardIcon from "../assets/image/gaming/circle-guard.svg?url";
+import coinIcon from "../assets/image/gaming/coin.svg?url";
+import controllerIcon from "../assets/image/gaming/controller.svg?url";
+import creeperIcon from "../assets/image/gaming/creeper.svg?url";
+import diceIcon from "../assets/image/gaming/dice.svg?url";
+import gameboyIcon from "../assets/image/gaming/gameboy.svg?url";
+import ghostIcon from "../assets/image/gaming/ghost.svg?url";
+import levelUpIcon from "../assets/image/gaming/level-up.svg?url";
+import mazeIcon from "../assets/image/gaming/maze.svg?url";
+import mushroomIcon from "../assets/image/gaming/mushroom.svg?url";
+import pacmanIcon from "../assets/image/gaming/pacman.svg?url";
+import playingCardIcon from "../assets/image/gaming/playing-card.svg?url";
+import puzzleIcon from "../assets/image/gaming/puzzle.svg?url";
+import retroGameIcon from "../assets/image/gaming/retro-game.svg?url";
+import squareGuardIcon from "../assets/image/gaming/square-guard.svg?url";
+import triangleGuardIcon from "../assets/image/gaming/triangle-guard.svg?url";
+
+import friesIcon from "../assets/image/food/fries.svg?url";
+import pizzaIcon from "../assets/image/food/pizza.svg?url";
+import sandwichIcon from "../assets/image/food/sandwich.svg?url";
+import donutIcon from "../assets/image/food/donut.svg?url";
+import sushiIcon from "../assets/image/food/sushi.svg?url";
+import hotdogIcon from "../assets/image/food/hotdog.svg?url";
+import burgerIcon from "../assets/image/food/burger.svg?url";
+import pretzelIcon from "../assets/image/food/pretzel.svg?url";
+import cupcakeIcon from "../assets/image/food/cupcake.svg?url";
+import cakeIcon from "../assets/image/food/cake.svg?url";
+import puddingIcon from "../assets/image/food/pudding.svg?url";
+import chocolateIcon from "../assets/image/food/chocolate.svg?url";
+import muffinIcon from "../assets/image/food/muffin.svg?url";
+import noodlesIcon from "../assets/image/food/noodles.svg?url";
+import wrapIcon from "../assets/image/food/wrap.svg?url";
+import iceCreamIcon from "../assets/image/food/ice-cream.svg?url";
+import saladIcon from "../assets/image/food/salad.svg?url";
+import cookiesIcon from "../assets/image/food/cookies.svg?url";
+
+// DA PROJECTS
+import soupIcon from "../assets/image/da-projects/soup.svg?url";
+import ramenIcon from "../assets/image/da-projects/ramen.svg?url";
+import eggsIcon from "../assets/image/da-projects/eggs.svg?url";
+import flowerIcon from "../assets/image/da-projects/flower.svg?url";
+import joinIcon from "../assets/image/da-projects/join.svg?url";
+import chefIcon from "../assets/image/da-projects/chef.svg?url";
+import logoGreenIcon from "../assets/image/da-projects/logo-green.svg?url";
+import basketIcon from "../assets/image/da-projects/basket.svg?url";
+import pokeballIcon from "../assets/image/da-projects/pokeball.svg?url";
+import numberGridIcon from "../assets/image/da-projects/number-grid.svg?url";
+import beeIcon from "../assets/image/da-projects/bee.svg?url";
+import arrowIcon from "../assets/image/da-projects/arrow.svg?url";
+import chatIcon from "../assets/image/da-projects/chat.svg?url";
+import wizardIcon from "../assets/image/da-projects/wizard.svg?url";
+import treeIcon from "../assets/image/da-projects/tree.svg?url";
+import networkIcon from "../assets/image/da-projects/network.svg?url";
+import landscapeIcon from "../assets/image/da-projects/landscape.svg?url";
+import spiralIcon from "../assets/image/da-projects/spiral.svg?url";
+
+
 type ThemeName = "coding" | "gaming" | "academy" | "food";
 type Player = "blue" | "orange";
 type BoardSize = 16 | 24 | 36;
@@ -46,27 +104,27 @@ const themes: Record<ThemeName, MemoryTheme> = {
     gaming: {
         name: "Gaming",
         symbols: [
-            "🎮", "🕹️", "👾", "🏆", "🎯", "⚔️",
-            "🛡️", "💎", "👑", "🔥", "💣", "🚗",
-            "🏎️", "🧩", "🎲", "🐉", "🦸", "🥇"
+            diceIcon, ghostIcon, mushroomIcon, controllerIcon, squareGuardIcon, coinIcon,
+            triangleGuardIcon, circleGuardIcon, retroGameIcon, bananaIcon, gameboyIcon,
+            playingCardIcon, puzzleIcon, pacmanIcon, creeperIcon, mazeIcon, levelUpIcon
         ]
     },
 
     academy: {
         name: "DA Projects",
         symbols: [
-            "📚", "📝", "💻", "🎓", "📊", "🧑‍💻",
-            "📋", "🗂️", "🔨", "⚙️", "🚀", "🌐",
-            "📱", "🧠", "💡", "🛠️", "📈", "🏁"
+            soupIcon, ramenIcon, eggsIcon, flowerIcon, joinIcon, chefIcon,
+            logoGreenIcon, basketIcon, pokeballIcon, numberGridIcon, beeIcon, arrowIcon,
+            chatIcon, wizardIcon, treeIcon, networkIcon, landscapeIcon, spiralIcon
         ]
     },
 
     food: {
         name: "Foods",
         symbols: [
-            "🍕", "🍔", "🌮", "🍟", "🍣", "🍩",
-            "🍪", "🥗", "🍝", "🥐", "🍓", "🍉",
-            "🥑", "🍰", "🥞", "🍎", "🍌", "🥝"
+            friesIcon, pizzaIcon, sandwichIcon, donutIcon, sushiIcon, hotdogIcon,
+            burgerIcon, pretzelIcon, cupcakeIcon, cakeIcon, puddingIcon, chocolateIcon,
+            muffinIcon, noodlesIcon, wrapIcon, iceCreamIcon, saladIcon, cookiesIcon
         ]
     }
 };
@@ -421,7 +479,6 @@ function renderCards(): void {
             "memory-card__inner"
         );
 
-
         const cardBack =
             document.createElement("span");
 
@@ -431,7 +488,6 @@ function renderCards(): void {
 
         cardBack.textContent = "</>";
 
-
         const cardFront =
             document.createElement("span");
 
@@ -439,49 +495,23 @@ function renderCards(): void {
             "memory-card__front"
         );
 
-        const imageSymbols = [
-            gitIcon,
-            typescriptIcon,
-            angularIcon,
-            bootstrapIcon,
-            cssIcon,
-            djangoIcon,
-            firebaseIcon,
-            githubIcon,
-            group16Icon,
-            group17Icon,
-            htmlIcon,
-            javascriptIcon,
-            nodejsIcon,
-            pythonIcon,
-            sassIcon,
-            sqlIcon,
-            terminalIcon,
-            vscodeIcon
-        ];
+        const cardImage =
+            document.createElement("img");
 
-        if (imageSymbols.includes(card.symbol)) {
-            const cardImage =
-                document.createElement("img");
+        cardImage.src = card.symbol;
+        cardImage.alt = "Memory card symbol";
+        cardImage.draggable = false;
 
-            cardImage.src = card.symbol;
-            cardImage.alt = "Memory card symbol";
+        cardImage.classList.add(
+            "memory-card__image"
+        );
 
-            cardImage.classList.add(
-                "memory-card__image"
-            );
-
-            cardFront.appendChild(cardImage);
-        } else {
-            cardFront.textContent =
-                card.symbol;
-        }
+        cardFront.appendChild(cardImage);
 
         cardInner.appendChild(cardBack);
         cardInner.appendChild(cardFront);
 
         cardElement.appendChild(cardInner);
-
 
         cardElement.addEventListener(
             "click",
