@@ -22,7 +22,7 @@
 
                     <!-- GAME THEME -->
                     <fieldset class="settings__group">
-                        <legend>🎨 Game themes</legend>
+                        <legend><img src="/src/assets/image/game-themes.svg" alt="">Game themes</legend>
 
                         <label>
                             <input type="radio" name="theme" value="coding" checked>
@@ -48,7 +48,7 @@
 
                     <!-- PLAYER -->
                     <fieldset class="settings__group">
-                        <legend>♙ Choose player</legend>
+                        <legend><img src="/src/assets/image/choose-player.svg" alt="">Choose player</legend>
 
                         <label>
                             <input type="radio" name="player" value="blue" checked>
@@ -64,7 +64,7 @@
 
                     <!-- BOARD SIZE -->
                     <fieldset class="settings__group">
-                        <legend>▧ Board size</legend>
+                        <legend><img src="/src/assets/image/board-size.svg" alt="">Board size</legend>
 
                         <label>
                             <input type="radio" name="board-size" value="16" checked>
@@ -88,44 +88,10 @@
                 <!-- PREVIEW -->
                 <div class="settings__preview">
 
-                    <div class="preview-card">
-
-                        <!-- MINI GAME HEADER -->
-                        <div class="preview-card__header">
-
-                            <div class="preview-card__scores">
-                                <span class="preview-card__blue">
-                                    Blue 0
-                                </span>
-
-                                <span class="preview-card__orange">
-                                    Orange 0
-                                </span>
-                            </div>
-
-                            <div class="preview-card__player">
-                                Current player:
-                                <strong id="preview-current-player">
-                                    Blue
-                                </strong>
-                            </div>
-
-                            <div class="preview-card__exit">
-                                ⇱ Exit game
-                            </div>
-
-                        </div>
-
-                        <span class="preview-card__back">
-                            &lt;/&gt;
-                        </span>
-
-                        <span class="preview-card__front">
-                            Git
-                        </span>
-
+                    <div class="theme-preview">
+                        <img id="theme-preview-image" class="theme-preview__image"
+                            src="/src/assets/image/theme-preview/theme-coding.png" alt="Code vibes theme preview">
                     </div>
-
 
                     <!-- SUMMARY -->
                     <div class="settings__summary">
@@ -154,6 +120,8 @@
                     </div>
 
                 </div>
+
+            </div>
 
         </section>
 

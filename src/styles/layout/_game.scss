@@ -2,10 +2,8 @@
     width: 100%;
     max-width: 1100px;
     min-height: 720px;
-
     margin: 0 auto;
     padding: 32px 80px 60px;
-
     background: #2d5868;
 
 
@@ -16,18 +14,13 @@
     &__header {
         width: 100%;
         max-width: 940px;
-
         display: grid;
         grid-template-columns: 1fr auto 1fr;
         align-items: center;
-
         gap: 30px;
-
         margin: 0 auto 42px;
         padding: 16px 18px;
-
         border-radius: 8px;
-
         background: #586681;
         color: #ffffff;
     }
@@ -39,25 +32,19 @@
 
     &__scores {
         justify-self: start;
-
         display: flex;
         align-items: center;
         gap: 10px;
-
         padding: 7px 10px;
-
         border-radius: 5px;
-
         background: #ffffff;
         color: #222222;
-
         font-size: 14px;
 
         span {
             display: flex;
             align-items: center;
             gap: 4px;
-
             font-weight: 700;
         }
 
@@ -77,19 +64,14 @@
 
     &__player {
         justify-self: center;
-
         color: #ffffff;
-
         font-size: 20px;
         font-weight: 500;
-
         white-space: nowrap;
 
         strong {
             display: inline-block;
-
             margin-left: 8px;
-
             font-weight: 700;
         }
     }
@@ -101,18 +83,13 @@
 
     #exit-button {
         justify-self: end;
-
         padding: 9px 16px;
-
         border: 2px solid #e51c74;
         border-radius: 7px;
-
         background: transparent;
         color: #ffffff;
-
         font-size: 14px;
         font-weight: 600;
-
         transition:
             background-color 0.2s ease,
             transform 0.2s ease,
@@ -120,9 +97,7 @@
 
         &:hover {
             background: #e51c74;
-
             transform: translateY(-2px);
-
             box-shadow:
                 0 5px 12px rgba(0, 0, 0, 0.18);
         }
@@ -162,7 +137,6 @@
 
         &__back {
             border-radius: 4px;
-
             background:
                 linear-gradient(145deg,
                     #45d6c4,
@@ -179,9 +153,7 @@
 
         &__front {
             border-radius: 4px;
-
             background: #ffffff;
-
             color: #222222;
         }
 
@@ -215,7 +187,6 @@
 
     .game {
         min-height: 100vh;
-
         padding: 24px 16px;
 
         &__header {

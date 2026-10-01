@@ -1,4 +1,10 @@
 import "../styles/style.scss";
+
+import themeCodingPreview from "../assets/image/theme-preview/theme-coding.png";
+import themeGamingPreview from "../assets/image/theme-preview/theme-gaming.png";
+import themeDaProjectsPreview from "../assets/image/theme-preview/theme-da-projects.png";
+import themeFoodPreview from "../assets/image/theme-preview/theme-food.png";
+
 import gitIcon from "../assets/image/code-vibes/git.svg?url";
 import typescriptIcon from "../assets/image/code-vibes/typescript.svg?url";
 import angularIcon from "../assets/image/code-vibes/angular.svg?url";
@@ -129,6 +135,13 @@ const themes: Record<ThemeName, MemoryTheme> = {
     }
 };
 
+const themePreviews: Record<ThemeName, string> = {
+    coding: themeCodingPreview,
+    gaming: themeGamingPreview,
+    academy: themeDaProjectsPreview,
+    food: themeFoodPreview
+};
+
 
 const settingsElement =
     document.querySelector<HTMLElement>("#settings");
@@ -216,6 +229,11 @@ const selectedPlayerElement =
 const selectedSizeElement =
     document.querySelector<HTMLElement>("#selected-size");
 
+const themePreviewImage =
+    document.querySelector<HTMLImageElement>(
+        "#theme-preview-image"
+    );
+
 
 if (
     !settingsElement ||
@@ -239,7 +257,9 @@ if (
     !winnerLabelElement ||
     !winnerNameElement ||
     !resultIconElement ||
+    !themePreviewImage ||
     !homeButton
+    
 ) {
     throw new Error(
         "Ein benötigtes HTML-Element wurde nicht gefunden."
@@ -349,6 +369,10 @@ function updateSettingsSummary(): void {
 
     selectedSizeDisplay.textContent =
         `${size} cards`;
+
+    themePreviewImage.src = themePreviews[theme];
+
+    themePreviewImage.alt = `/${themes[theme].name} theme preview`;
 }
 
 const settingInputs =
