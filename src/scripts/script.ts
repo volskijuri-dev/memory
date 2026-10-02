@@ -41,6 +41,7 @@ import puzzleIcon from "../assets/image/gaming/puzzle.svg?url";
 import retroGameIcon from "../assets/image/gaming/retro-game.svg?url";
 import squareGuardIcon from "../assets/image/gaming/square-guard.svg?url";
 import triangleGuardIcon from "../assets/image/gaming/triangle-guard.svg?url";
+import playButtonIcon from "../assets/image/gaming/play-button.svg?url";
 
 import friesIcon from "../assets/image/food/fries.svg?url";
 import pizzaIcon from "../assets/image/food/pizza.svg?url";
@@ -112,7 +113,7 @@ const themes: Record<ThemeName, MemoryTheme> = {
         symbols: [
             diceIcon, ghostIcon, mushroomIcon, controllerIcon, squareGuardIcon, coinIcon,
             triangleGuardIcon, circleGuardIcon, retroGameIcon, bananaIcon, gameboyIcon,
-            playingCardIcon, puzzleIcon, pacmanIcon, creeperIcon, mazeIcon, levelUpIcon
+            playingCardIcon, puzzleIcon, pacmanIcon, creeperIcon, mazeIcon, levelUpIcon, playButtonIcon
         ]
     },
 
