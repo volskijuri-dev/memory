@@ -402,6 +402,14 @@ settingInputs.forEach((input) => {
 
 function startGame(): void {
     currentTheme = getSelectedTheme();
+    game.classList.remove(
+        "theme-coding",
+        "theme-gaming",
+        "theme-academy",
+        "theme-food"
+    );
+
+    game.classList.add(`theme-${currentTheme}`);
     startingPlayer = getSelectedPlayer();
     currentPlayer = startingPlayer;
     boardSize = getSelectedBoardSize();
@@ -729,11 +737,6 @@ function updateScores(): void {
 
 
 function updateCurrentPlayer(): void {
-    currentPlayerDisplay.textContent =
-        currentPlayer === "blue"
-            ? "Blue"
-            : "Orange";
-
     currentPlayerDisplay.classList.remove(
         "player-blue",
         "player-orange"
@@ -743,6 +746,13 @@ function updateCurrentPlayer(): void {
         currentPlayer === "blue"
             ? "player-blue"
             : "player-orange"
+    );
+
+    currentPlayerDisplay.setAttribute(
+        "aria-label",
+        currentPlayer === "blue"
+            ? "Blue player"
+            : "Orange player"
     );
 }
 

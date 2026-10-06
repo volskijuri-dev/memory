@@ -65,27 +65,26 @@
 
     &__player {
         justify-self: center;
+        display: flex;
+        align-items: end;
+        gap: 10px;
         color: #ffffff;
         font-size: 20px;
         font-weight: 500;
         white-space: nowrap;
-
-        strong {
-            display: inline-block;
-            margin-left: 8px;
-            font-weight: 700;
-        }
     }
 
-
     /* -------------------------
-       EXIT BUTTON
-    ------------------------- */
+   EXIT BUTTON
+------------------------- */
 
     #exit-button {
         justify-self: end;
+        display: flex;
+        align-items: center;
+        gap: 7px;
         padding: 9px 16px;
-        border: 2px solid #e51c74;
+        border: 2px solid #4dd5bc;
         border-radius: 7px;
         background: transparent;
         color: #ffffff;
@@ -93,14 +92,19 @@
         font-weight: 600;
         transition:
             background-color 0.2s ease,
+            border-color 0.2s ease,
             transform 0.2s ease,
             box-shadow 0.2s ease;
 
+        img {
+            width: 17px;
+            height: 17px;
+            display: block;
+        }
+
         &:hover {
-            background: #e51c74;
             transform: translateY(-2px);
-            box-shadow:
-                0 5px 12px rgba(0, 0, 0, 0.18);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
         }
 
         &:active {
@@ -150,17 +154,73 @@
     }
 }
 
+/* -------------------------
+   EXIT BUTTON THEME COLORS
+------------------------- */
+
+/* CODE VIBES */
+.game.theme-coding #exit-button {
+    border-color: #4dd5bc;
+
+    &:hover {
+        background: #4dd5bc;
+    }
+}
+
+/* GAMING */
+.game.theme-gaming #exit-button {
+    border-color: #ed1b76;
+
+    &:hover {
+        background: #ed1b76;
+    }
+}
+
+/* DA PROJECTS */
+.game.theme-academy #exit-button {
+    border-color: #1e7594;
+
+    &:hover {
+        background: #1e7594;
+    }
+}
+
+/* FOOD */
+.game.theme-food #exit-button {
+    border-color: #f3832d;
+
+    &:hover {
+        background: #f3832d;
+    }
+}
+
 
 /* -------------------------
    PLAYER COLORS
 ------------------------- */
 
-.player-blue {
-    color: #31b9ff;
+.current-player-icon {
+    display: inline-block;
+    width: 25px;
+    height: 30px;
+    flex-shrink: 0;
+    background-color: #31b9ff;
+    mask-image: url("/src/assets/image/game-ui/current-player.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+    -webkit-mask-image: url("/src/assets/image/game-ui/current-player.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
 }
 
-.player-orange {
-    color: #ff9d32;
+.current-player-icon.player-blue {
+    background-color: #31b9ff;
+}
+
+.current-player-icon.player-orange {
+    background-color: #ff9d32;
 }
 
 

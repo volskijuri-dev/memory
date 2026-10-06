@@ -125,7 +125,6 @@
 
         </section>
 
-
         <!-- GAME -->
         <section class="game hidden" id="game">
 
@@ -144,20 +143,21 @@
                 </div>
 
                 <div class="game__player">
-                    Current player:
-                    <strong id="current-player">
-                        Blue
-                    </strong>
+                    <span>Current player:</span>
+
+                    <span class="current-player-icon player-blue" id="current-player" role="img"
+                        aria-label="Blue player">
+                    </span>
                 </div>
 
                 <button id="exit-button" type="button">
-                    ⇱ Exit game
+                    <img src="/src/assets/image/game-ui/exit-game.svg" alt="" aria-hidden="true">
+                    <span>Exit game</span>
                 </button>
 
             </header>
 
-            <section class="game-board" id="game-board" aria-label="Memory Spielfeld">
-            </section>
+            <section class="game-board" id="game-board" aria-label="Memory Spielfeld"></section>
 
         </section>
 
