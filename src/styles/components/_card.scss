@@ -1,15 +1,11 @@
 .memory-card {
     width: 100%;
     aspect-ratio: 1 / 1;
-
     padding: 0;
     border: none;
     border-radius: 16px;
-
     background: transparent;
-
     perspective: 1000px;
-
     cursor: pointer;
 
     &:hover:not(.flipped):not(.matched) {
@@ -19,68 +15,83 @@
         }
     }
 
-    &__image {
-        width: 70%;
-        height: 70%;
-        object-fit: contain;
-    }
-
-    &__image {
-        width: 70%;
-        height: 70%;
-        object-fit: contain;
-        display: block;
-        pointer-events: none;
-    }
+    /* -------------------------
+       INNER CARD
+    ------------------------- */
 
     &__inner {
         position: relative;
-
         display: block;
-
         width: 100%;
         height: 100%;
-
-        border-radius: 16px;
-
+        border-radius: 12px;
         transform-style: preserve-3d;
 
         transition:
             transform 0.5s ease,
             box-shadow 0.2s ease;
 
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+        box-shadow:
+            0 6px 14px rgba(0, 0, 0, 0.15);
     }
+
+    /* -------------------------
+       FRONT + BACK
+    ------------------------- */
 
     &__front,
     &__back {
         position: absolute;
         inset: 0;
-
         display: flex;
         justify-content: center;
         align-items: center;
-
-        border-radius: 16px;
-
+        border-radius: 12px;
+        overflow: hidden;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
-
-        font-size: 42px;
-        font-weight: 700;
     }
+
+    /* -------------------------
+       FIGMA CARD BACK
+    ------------------------- */
 
     &__back {
-        background: #2f3e5c;
-        color: #ffffff;
+        background: transparent;
     }
+
+    &__back-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 12px;
+        pointer-events: none;
+        user-select: none;
+    }
+
+    /* -------------------------
+       CARD FRONT
+    ------------------------- */
 
     &__front {
         background: #ffffff;
         color: #222222;
-
         transform: rotateY(180deg);
     }
+
+    &__image {
+        display: block;
+        width: 70%;
+        height: 70%;
+        object-fit: contain;
+        pointer-events: none;
+        user-select: none;
+    }
+
+    /* -------------------------
+       FLIPPED / MATCHED
+    ------------------------- */
 
     &.flipped,
     &.matched {

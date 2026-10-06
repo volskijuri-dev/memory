@@ -43,12 +43,9 @@
 .game-board {
     width: 100%;
     margin: 0 auto;
-
     display: grid;
     justify-content: center;
-
     gap: 8px;
-
     &--16 {
         max-width: 500px;
         grid-template-columns: repeat(4, 1fr);
@@ -70,7 +67,7 @@
         padding: 24px 16px;
 
         .game-board {
-            gap: 10px;
+            gap: 8px;
         }
     }
 

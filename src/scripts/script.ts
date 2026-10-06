@@ -5,6 +5,11 @@ import themeGamingPreview from "../assets/image/theme-preview/theme-gaming.png";
 import themeDaProjectsPreview from "../assets/image/theme-preview/theme-da-projects.png";
 import themeFoodPreview from "../assets/image/theme-preview/theme-food.png";
 
+import cardBackCoding from "../assets/image/card-back/card-back-coding.svg?url";
+import cardBackGaming from "../assets/image/card-back/card-back-gaming.svg?url";
+import cardBackAcademy from "../assets/image/card-back/card-back-academy.svg?url";
+import cardBackFood from "../assets/image/card-back/card-back-food.svg?url";
+
 import gitIcon from "../assets/image/code-vibes/git.svg?url";
 import typescriptIcon from "../assets/image/code-vibes/typescript.svg?url";
 import angularIcon from "../assets/image/code-vibes/angular.svg?url";
@@ -143,6 +148,13 @@ const themePreviews: Record<ThemeName, string> = {
     food: themeFoodPreview
 };
 
+const cardBacks: Record<ThemeName, string> = {
+    coding: cardBackCoding,
+    gaming: cardBackGaming,
+    academy: cardBackAcademy,
+    food: cardBackFood
+};
+
 
 const settingsElement =
     document.querySelector<HTMLElement>("#settings");
@@ -260,7 +272,7 @@ if (
     !resultIconElement ||
     !themePreviewImage ||
     !homeButton
-    
+
 ) {
     throw new Error(
         "Ein benötigtes HTML-Element wurde nicht gefunden."
@@ -511,8 +523,24 @@ function renderCards(): void {
             "memory-card__back"
         );
 
-        cardBack.textContent = "</>";
+        const cardBackImage =
+            document.createElement("img");
 
+        cardBackImage.src =
+            cardBacks[currentTheme];
+
+        cardBackImage.alt =
+            `${themes[currentTheme].name} card back`;
+
+        cardBackImage.draggable = false;
+
+        cardBackImage.classList.add(
+            "memory-card__back-image"
+        );
+
+        cardBack.appendChild(
+            cardBackImage
+        );
         const cardFront =
             document.createElement("span");
 

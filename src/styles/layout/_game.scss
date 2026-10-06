@@ -5,6 +5,7 @@
     margin: 0 auto;
     padding: 32px 80px 60px;
     background: #2d5868;
+    border-radius: 20px;
 
 
     /* -------------------------
@@ -134,22 +135,6 @@
     ------------------------- */
 
     .memory-card {
-
-        &__back {
-            border-radius: 4px;
-            background:
-                linear-gradient(145deg,
-                    #45d6c4,
-                    #279e93);
-
-            color:
-                rgba(255,
-                    255,
-                    255,
-                    0.45);
-
-            font-weight: 500;
-        }
 
         &__front {
             border-radius: 4px;
