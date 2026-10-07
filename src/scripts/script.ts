@@ -249,7 +249,7 @@ const selectedSizeElement =
 const themePreviewImage =
     document.querySelector<HTMLImageElement>(
         "#theme-preview-image"
-    );
+    )!;
 
 
 if (
