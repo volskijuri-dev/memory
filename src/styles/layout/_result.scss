@@ -2,48 +2,70 @@
     width: 100%;
     max-width: 1100px;
     min-height: 720px;
-
     margin: 0 auto;
     padding: 60px 20px;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     text-align: center;
-
     background: #2d5868;
+    border-radius: 20px;
     color: #ffffff;
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.18);
+
+    /* ==========================================
+       GAME OVER
+    ========================================== */
 
     &__game-over {
-        margin-bottom: 28px;
-
-        color: #ff007f;
-
-        font-size: clamp(38px, 6vw, 72px);
-        letter-spacing: 3px;
+        margin-bottom: 30px;
+        color: #ff3b8d;
+        font-size: clamp(42px, 6vw, 72px);
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: 4px;
+        text-shadow:
+            0 4px 14px rgba(255, 59, 141, 0.25);
     }
+
+    /* ==========================================
+       LABEL
+    ========================================== */
 
     &__label {
-        margin-bottom: 10px;
-
-        font-size: 16px;
+        margin-bottom: 12px;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 18px;
+        font-weight: 600;
     }
+
+    /* ==========================================
+       FINAL SCORE
+    ========================================== */
 
     &__score {
         display: flex;
         align-items: center;
-        gap: 10px;
-
-        padding: 8px 14px;
-
-        border-radius: 4px;
-
+        justify-content: center;
+        gap: 22px;
+        min-width: 220px;
+        padding: 12px 20px;
+        border-radius: 10px;
         background: #ffffff;
         color: #222222;
+        font-size: 20px;
+        font-weight: 700;
+        box-shadow:
+            0 8px 20px rgba(0, 0, 0, 0.18);
+    }
 
-        font-size: 18px;
+    &__score-blue,
+    &__score-orange {
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
 
     &__score-blue {
@@ -54,45 +76,296 @@
         color: #ff8a00;
     }
 
+    /* ==========================================
+       WINNER
+    ========================================== */
+
     &__winner {
-        margin-bottom: 25px;
-
-        color: #1da1f2;
-
-        font-size: clamp(32px, 5vw, 58px);
+        margin-bottom: 30px;
+        color: #31b9ff;
+        font-size: clamp(38px, 5vw, 60px);
+        font-weight: 800;
         letter-spacing: 2px;
+        text-shadow:
+            0 4px 16px rgba(49, 185, 255, 0.25);
     }
+
+    /* ==========================================
+   WINNER / DRAW ICON
+========================================== */
 
     &__icon {
-        margin-bottom: 30px;
-
-        font-size: clamp(90px, 12vw, 150px);
-        line-height: 1;
+        width: 180px;
+        height: 180px;
+        margin-bottom: 36px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        animation: winner-pop 0.6s ease;
     }
 
+    &__image {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: contain;
+
+        filter:
+            drop-shadow(0 10px 12px rgba(0, 0, 0, 0.2));
+    }
+
+    &__draw-icon {
+        width: 100%;
+        height: 100%;
+        display: block;
+        background-color: #ed1b76;
+        mask-image: url("../../assets/image/result/draw.svg");
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-size: contain;
+        -webkit-mask-image: url("../../assets/image/result/draw.svg");
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        -webkit-mask-size: contain;
+
+        filter:
+            drop-shadow(0 8px 12px rgba(0, 0, 0, 0.18));
+    }
+
+    /* ==========================================
+       HOME BUTTON
+    ========================================== */
+
     &__home {
-        padding: 10px 24px;
-
-        border: 2px solid #ff007f;
-
+        min-width: 130px;
+        padding: 11px 24px;
+        border: 2px solid #ff3b8d;
+        border-radius: 8px;
         background: transparent;
         color: #ffffff;
-
+        font-size: 15px;
         font-weight: 700;
 
         transition:
             background-color 0.2s ease,
-            transform 0.2s ease;
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
 
         &:hover {
-            background: #ff007f;
+            background: #ff3b8d;
             transform: translateY(-2px);
+            box-shadow:
+                0 6px 14px rgba(0, 0, 0, 0.18);
+        }
+
+        &:active {
+            transform: translateY(0);
         }
     }
 
+    /* ==========================================
+       DRAW
+    ========================================== */
+
     &--draw {
+
         .result-screen__winner {
-            color: #ff007f;
+            color: #ff3b8d;
+            text-shadow:
+                0 4px 16px rgba(255, 59, 141, 0.25);
+        }
+    }
+}
+
+/* -------------------------
+   CODE VIBES
+------------------------- */
+
+.result-screen.theme-coding {
+
+    .result-screen__draw-icon {
+        background-color: #54cdbb;
+    }
+
+    .result-screen__game-over {
+        color: #54cdbb;
+        text-shadow:
+            0 4px 14px rgba(84, 205, 187, 0.25);
+    }
+
+    .result-screen__home {
+        border-color: #54cdbb;
+
+        &:hover {
+            background: #54cdbb;
+        }
+    }
+
+    &.result-screen--draw {
+
+        .result-screen__winner {
+            color: #54cdbb;
+            text-shadow:
+                0 4px 16px rgba(84, 205, 187, 0.25);
+        }
+    }
+}
+
+
+/* -------------------------
+   GAMING
+------------------------- */
+
+.result-screen.theme-gaming {
+
+    .result-screen__draw-icon {
+        background-color: #ed1b76;
+    }
+
+    .result-screen__game-over {
+        color: #ed1b76;
+        text-shadow:
+            0 4px 14px rgba(237, 27, 118, 0.25);
+    }
+
+    .result-screen__home {
+        border-color: #ed1b76;
+
+        &:hover {
+            background: #ed1b76;
+        }
+    }
+
+    &.result-screen--draw {
+
+        .result-screen__winner {
+            color: #ed1b76;
+            text-shadow:
+                0 4px 16px rgba(237, 27, 118, 0.25);
+        }
+    }
+}
+
+
+/* -------------------------
+   DA PROJECTS
+------------------------- */
+
+.result-screen.theme-academy {
+
+    .result-screen__draw-icon {
+        background-color: #1e7594;
+    }
+
+    .result-screen__game-over {
+        color: #1e7594;
+        text-shadow:
+            0 4px 14px rgba(30, 117, 148, 0.25);
+    }
+
+    .result-screen__home {
+        border-color: #1e7594;
+
+        &:hover {
+            background: #1e7594;
+        }
+    }
+
+    &.result-screen--draw {
+
+        .result-screen__winner {
+            color: #1e7594;
+            text-shadow:
+                0 4px 16px rgba(30, 117, 148, 0.25);
+        }
+    }
+}
+
+
+/* -------------------------
+   FOOD
+------------------------- */
+
+.result-screen.theme-food {
+
+    .result-screen__draw-icon {
+        background-color: #f3832d;
+    }
+
+    .result-screen__game-over {
+        color: #f3832d;
+        text-shadow:
+            0 4px 14px rgba(243, 131, 45, 0.25);
+    }
+
+    .result-screen__home {
+        border-color: #f3832d;
+
+        &:hover {
+            background: #f3832d;
+        }
+    }
+
+    &.result-screen--draw {
+
+        .result-screen__winner {
+            color: #f3832d;
+            text-shadow:
+                0 4px 16px rgba(243, 131, 45, 0.25);
+        }
+    }
+}
+
+/* ==============================================
+   WINNER ANIMATION
+============================================== */
+
+@keyframes winner-pop {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    70% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ==============================================
+   MOBILE
+============================================== */
+
+@media (max-width: 500px) {
+
+    .result-screen {
+        min-height: calc(100vh - 36px);
+        padding: 40px 16px;
+        border-radius: 16px;
+
+        &__game-over {
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+        }
+
+        &__score {
+            gap: 16px;
+            min-width: 200px;
+            padding: 11px 16px;
+        }
+
+        &__winner {
+            margin-bottom: 24px;
+        }
+
+        &__home {
+            width: 160px;
         }
     }
 }

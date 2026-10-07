@@ -10,6 +10,10 @@ import cardBackGaming from "../assets/image/card-back/card-back-gaming.svg?url";
 import cardBackAcademy from "../assets/image/card-back/card-back-academy.svg?url";
 import cardBackFood from "../assets/image/card-back/card-back-food.svg?url";
 
+import playerBlueIcon from "../assets/image/result/player-blue.svg?url";
+import playerOrangeIcon from "../assets/image/result/player-orange.svg?url";
+
+
 import gitIcon from "../assets/image/code-vibes/git.svg?url";
 import typescriptIcon from "../assets/image/code-vibes/typescript.svg?url";
 import angularIcon from "../assets/image/code-vibes/angular.svg?url";
@@ -409,6 +413,28 @@ function startGame(): void {
         "theme-food"
     );
 
+    gameOver.classList.remove(
+        "theme-coding",
+        "theme-gaming",
+        "theme-academy",
+        "theme-food"
+    );
+
+    winner.classList.remove(
+        "theme-coding",
+        "theme-gaming",
+        "theme-academy",
+        "theme-food"
+    );
+
+    gameOver.classList.add(
+        `theme-${currentTheme}`
+    );
+
+    winner.classList.add(
+        `theme-${currentTheme}`
+    );
+
     game.classList.add(`theme-${currentTheme}`);
     startingPlayer = getSelectedPlayer();
     currentPlayer = startingPlayer;
@@ -804,52 +830,50 @@ function showWinner(): void {
     );
 
     if (blueScore > orangeScore) {
-        winnerLabel.textContent =
-            "The winner is";
+        winnerLabel.textContent = "The winner is";
+        winnerName.textContent = "Blue Player";
+        winnerName.style.color = "#1da1f2";
 
-        winnerName.textContent =
-            "Blue Player";
-
-        winnerName.style.color =
-            "#1da1f2";
-
-        resultIcon.textContent =
-            "🏆";
+        resultIcon.innerHTML = `
+            <img
+                src="${playerBlueIcon}"
+                alt="Blue Player"
+                class="result-screen__image"
+            >
+        `;
 
         return;
     }
 
     if (orangeScore > blueScore) {
-        winnerLabel.textContent =
-            "The winner is";
+        winnerLabel.textContent = "The winner is";
+        winnerName.textContent = "Orange Player";
+        winnerName.style.color = "#ff8a00";
 
-        winnerName.textContent =
-            "Orange Player";
-
-        winnerName.style.color =
-            "#ff8a00";
-
-        resultIcon.textContent =
-            "🏆";
+        resultIcon.innerHTML = `
+            <img
+                src="${playerOrangeIcon}"
+                alt="Orange Player"
+                class="result-screen__image"
+            >
+        `;
 
         return;
     }
 
-    winner.classList.add(
-        "result-screen--draw"
-    );
+    winner.classList.add("result-screen--draw");
 
-    winnerLabel.textContent =
-        "It's a";
+    winnerLabel.textContent = "It's a";
+    winnerName.textContent = "DRAW";
+    winnerName.style.color = "";
 
-    winnerName.textContent =
-        "DRAW";
-
-    winnerName.style.color =
-        "";
-
-    resultIcon.textContent =
-        "⚖️";
+    resultIcon.innerHTML = `
+    <span
+        class="result-screen__draw-icon"
+        role="img"
+        aria-label="Draw"
+    ></span>
+`;
 }
 
 function goHome(): void {
