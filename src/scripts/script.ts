@@ -159,6 +159,12 @@ const cardBacks: Record<ThemeName, string> = {
     food: cardBackFood
 };
 
+const homeScreenElement =
+    document.querySelector<HTMLElement>("#home");
+
+const playButtonElement =
+    document.querySelector<HTMLButtonElement>("#play-button");
+
 
 const settingsElement =
     document.querySelector<HTMLElement>("#settings");
@@ -253,6 +259,8 @@ const themePreviewImage =
 
 
 if (
+    !homeScreenElement ||
+    !playButtonElement ||
     !settingsElement ||
     !gameElement ||
     !gameBoard ||
@@ -283,6 +291,8 @@ if (
     );
 }
 
+const homeScreen = homeScreenElement;
+const playButton = playButtonElement;
 const settings = settingsElement;
 const game = gameElement;
 const board = gameBoard;
@@ -876,16 +886,19 @@ function showWinner(): void {
 `;
 }
 
+function showSettings(): void {
+    homeScreen.classList.add("hidden");
+    settings.classList.remove("hidden");
+}
+
 function goHome(): void {
     winner.classList.add("hidden");
     gameOver.classList.add("hidden");
-
-    settings.classList.remove("hidden");
-
+    game.classList.add("hidden");
+    settings.classList.add("hidden");
+    homeScreen.classList.remove("hidden");
     board.innerHTML = "";
-
     resetTurn();
-
     boardLocked = false;
 }
 
@@ -909,6 +922,8 @@ function exitGame(): void {
 
     boardLocked = false;
 }
+
+playButton.addEventListener("click", showSettings);
 
 start.addEventListener(
     "click",
