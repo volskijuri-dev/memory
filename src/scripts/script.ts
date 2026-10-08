@@ -1,5 +1,10 @@
 import "../styles/style.scss";
 
+/**
+ * Memory Game
+ * @author Juri Volski
+ * @version 1.0.0
+ */
 import themeCodingPreview from "../assets/image/theme-preview/theme-coding.png";
 import themeGamingPreview from "../assets/image/theme-preview/theme-gaming.png";
 import themeDaProjectsPreview from "../assets/image/theme-preview/theme-da-projects.png";
@@ -106,6 +111,9 @@ type MemoryTheme = {
     symbols: string[];
 };
 
+/**
+ * Defines the available memory themes and their associated symbols.
+ */
 const themes: Record<ThemeName, MemoryTheme> = {
     coding: {
         name: "Code vibes",
@@ -144,6 +152,9 @@ const themes: Record<ThemeName, MemoryTheme> = {
     }
 };
 
+/**
+ * Maps each theme to its corresponding preview image.
+ */
 const themePreviews: Record<ThemeName, string> = {
     coding: themeCodingPreview,
     gaming: themeGamingPreview,
@@ -151,6 +162,8 @@ const themePreviews: Record<ThemeName, string> = {
     food: themeFoodPreview
 };
 
+/** Maps each theme to its corresponding card back image.
+ */
 const cardBacks: Record<ThemeName, string> = {
     coding: cardBackCoding,
     gaming: cardBackGaming,
@@ -158,105 +171,154 @@ const cardBacks: Record<ThemeName, string> = {
     food: cardBackFood
 };
 
+/** Selects and validates all required HTML elements for the game.
+ */
 const homeScreenElement =
     document.querySelector<HTMLElement>("#home");
 
+/** Selects and validates the play button element.
+ */
 const playButtonElement =
     document.querySelector<HTMLButtonElement>("#play-button");
 
-
+/** Selects and validates the settings screen element.
+ */
 const settingsElement =
     document.querySelector<HTMLElement>("#settings");
 
+/** Selects and validates the game screen element.
+*/
 const gameElement =
     document.querySelector<HTMLElement>("#game");
 
+/** Selects and validates the game board element.
+*/
 const gameBoard =
     document.querySelector<HTMLElement>("#game-board");
 
+/** Selects and validates the start button element.
+*/
 const startButton =
     document.querySelector<HTMLButtonElement>("#start-button");
 
+/** Selects and validates the exit button element.
+*/
 const exitButton =
     document.querySelector<HTMLButtonElement>("#exit-button");
 
+/** Selects and validates the exit modal element.
+*/
 const exitModal =
     document.querySelector<HTMLElement>("#exit-modal");
 
+/** Selects and validates the back to game button element.
+*/
 const backToGameButton =
     document.querySelector<HTMLButtonElement>(
         "#back-to-game-button"
     );
 
+/** Selects and validates the confirm exit button element.
+*/
 const confirmExitButton =
     document.querySelector<HTMLButtonElement>(
         "#confirm-exit-button"
     );
 
+/** Selects and validates the game-over screen element.
+*/
 const gameOverScreen =
     document.querySelector<HTMLElement>(
         "#game-over-screen"
     );
 
+/** Selects and validates the winner screen element.
+*/
 const winnerScreen =
     document.querySelector<HTMLElement>(
         "#winner-screen"
     );
 
+/** Selects and validates the final blue score element.
+*/
 const finalBlueScoreElement =
     document.querySelector<HTMLElement>(
         "#final-blue-score"
     );
 
+/** Selects and validates the final orange score element.
+*/
 const finalOrangeScoreElement =
     document.querySelector<HTMLElement>(
         "#final-orange-score"
     );
 
+/** Selects and validates the winner label element.
+*/
 const winnerLabelElement =
     document.querySelector<HTMLElement>(
         "#winner-label"
     );
 
+/** Selects and validates the winner name element.
+*/
 const winnerNameElement =
     document.querySelector<HTMLElement>(
         "#winner-name"
     );
 
+/** Selects and validates the result icon element.
+*/
 const resultIconElement =
     document.querySelector<HTMLElement>(
         "#result-icon"
     );
 
+/** Selects and validates the home button element.
+*/
 const homeButton =
     document.querySelector<HTMLButtonElement>(
         "#home-button"
     );
 
+/** Selects and validates the blue score display element.
+*/
 const blueScoreElement =
     document.querySelector<HTMLElement>("#blue-score");
 
+/** Selects and validates the orange score display element.
+*/
 const orangeScoreElement =
     document.querySelector<HTMLElement>("#orange-score");
 
+/** Selects and validates the current player display element.
+*/
 const currentPlayerElement =
     document.querySelector<HTMLElement>("#current-player");
 
+/** Selects and validates the selected theme display element.
+*/
 const selectedThemeElement =
     document.querySelector<HTMLElement>("#selected-theme");
 
+/** Selects and validates the selected player display element.
+*/
 const selectedPlayerElement =
     document.querySelector<HTMLElement>("#selected-player");
 
+/** Selects and validates the selected size display element.
+*/
 const selectedSizeElement =
     document.querySelector<HTMLElement>("#selected-size");
 
+/** Selects and validates the theme preview image element.
+*/
 const themePreviewImage =
     document.querySelector<HTMLImageElement>(
         "#theme-preview-image"
     )!;
 
-
+/** Validates the presence of all required HTML elements. */
 if (
     !homeScreenElement ||
     !playButtonElement ||
@@ -290,6 +352,7 @@ if (
     );
 }
 
+/** Assigns validated HTML elements to constants for easier access. */
 const homeScreen = homeScreenElement;
 const playButton = playButtonElement;
 const settings = settingsElement;
@@ -322,6 +385,14 @@ const resultIcon = resultIconElement;
 
 const home = homeButton;
 
+/** Delay before unmatched cards flip back. */
+const CARD_FLIP_DELAY = 800;
+
+/** Delay before displaying the game-over screen. */
+const GAME_END_DELAY = 600;
+
+/** Duration of the game-over screen. */
+const GAME_OVER_DURATION = 1800;
 
 let currentTheme: ThemeName = "coding";
 let startingPlayer: Player = "blue";
@@ -342,7 +413,9 @@ let orangeScore = 0;
 let foundPairs = 0;
 let boardLocked = false;
 
-
+/** Returns the selected theme name from the settings.
+ * @returns The selected theme or the default of "coding".
+ */
 function getSelectedTheme(): ThemeName {
     const input =
         document.querySelector<HTMLInputElement>(
@@ -352,7 +425,9 @@ function getSelectedTheme(): ThemeName {
     return (input?.value as ThemeName) ?? "coding";
 }
 
-
+/** Returns the selected starting player from the settings.
+ * @returns The selected player or the default of "blue".
+ */
 function getSelectedPlayer(): Player {
     const input =
         document.querySelector<HTMLInputElement>(
@@ -362,45 +437,78 @@ function getSelectedPlayer(): Player {
     return (input?.value as Player) ?? "blue";
 }
 
-
-function getSelectedBoardSize(): BoardSize {
-    const input =
-        document.querySelector<HTMLInputElement>(
-            'input[name="board-size"]:checked'
-        );
-
-    const size = Number(input?.value);
-
-    if (size === 24) {
-        return 24;
-    }
-
-    if (size === 36) {
-        return 36;
-    }
-
-    return 16;
+/**
+ * Checks whether a value is a supported board size.
+ * @param size - The number of cards to validate.
+ * @returns True if the board size is supported.
+ */
+function isBoardSize(size: number): size is BoardSize {
+    return size === 16 || size === 24 || size === 36;
 }
 
+/**
+ * Returns the selected board size.
+ * @returns The selected size or the default of 16 cards.
+ */
+function getSelectedBoardSize(): BoardSize {
+    const input = document.querySelector<HTMLInputElement>(
+        'input[name="board-size"]:checked'
+    );
+    const size = Number(input?.value);
+
+    return isBoardSize(size) ? size : 16;
+}
+
+/**
+ * Updates the selected theme name in the settings summary.
+ * @param theme - The selected memory theme.
+ */
+function updateThemeSummary(theme: ThemeName): void {
+    selectedThemeDisplay.textContent = themes[theme].name;
+}
+
+/**
+ * Updates the selected player in the settings summary.
+ * @param player - The selected starting player.
+ */
+function updatePlayerSummary(player: Player): void {
+    selectedPlayerDisplay.textContent =
+        player === "blue" ? "Blue" : "Orange";
+}
+
+/**
+ * Updates the selected board size in the settings summary.
+ * @param size - The selected number of cards.
+ */
+function updateBoardSizeSummary(size: BoardSize): void {
+    selectedSizeDisplay.textContent = `${size} cards`;
+}
+
+/**
+ * Updates the preview image for the selected theme.
+ * @param theme - The selected memory theme.
+ */
+function updateThemePreview(theme: ThemeName): void {
+    themePreviewImage.src = themePreviews[theme];
+    themePreviewImage.alt =
+        `/${themes[theme].name} theme preview`;
+}
+
+/**
+ * Updates all settings summary values and the theme preview.
+ */
 function updateSettingsSummary(): void {
     const theme = getSelectedTheme();
     const player = getSelectedPlayer();
     const size = getSelectedBoardSize();
 
-    selectedThemeDisplay.textContent =
-        themes[theme].name;
-
-    selectedPlayerDisplay.textContent =
-        player === "blue" ? "Blue" : "Orange";
-
-    selectedSizeDisplay.textContent =
-        `${size} cards`;
-
-    themePreviewImage.src = themePreviews[theme];
-
-    themePreviewImage.alt = `/${themes[theme].name} theme preview`;
+    updateThemeSummary(theme);
+    updatePlayerSummary(player);
+    updateBoardSizeSummary(size);
+    updateThemePreview(theme);
 }
 
+/** Initializes the settings summary and theme preview on page load. */
 const settingInputs =
     document.querySelectorAll<HTMLInputElement>(
         'input[type="radio"]'
@@ -413,112 +521,134 @@ settingInputs.forEach((input) => {
     );
 });
 
-function startGame(): void {
-    currentTheme = getSelectedTheme();
-    game.classList.remove(
-        "theme-coding",
-        "theme-gaming",
-        "theme-academy",
-        "theme-food"
-    );
 
-    gameOver.classList.remove(
-        "theme-coding",
-        "theme-gaming",
-        "theme-academy",
-        "theme-food"
-    );
+/**
+ * Applies the selected theme to all game screens.
+ */
+function applyGameTheme(): void {
+    const themeClasses = [
+        "theme-coding", "theme-gaming",
+        "theme-academy", "theme-food"
+    ];
 
-    winner.classList.remove(
-        "theme-coding",
-        "theme-gaming",
-        "theme-academy",
-        "theme-food"
-    );
+    [game, gameOver, winner].forEach((screen) => {
+        screen.classList.remove(...themeClasses);
+        screen.classList.add(`theme-${currentTheme}`);
+    });
+}
 
-    gameOver.classList.add(
-        `theme-${currentTheme}`
-    );
-
-    winner.classList.add(
-        `theme-${currentTheme}`
-    );
-
-    game.classList.add(`theme-${currentTheme}`);
-    startingPlayer = getSelectedPlayer();
-    currentPlayer = startingPlayer;
-    boardSize = getSelectedBoardSize();
-
+/**
+ * Resets scores, selected cards, and game state.
+ */
+function resetGameState(): void {
     blueScore = 0;
     orangeScore = 0;
     foundPairs = 0;
-
-    firstCard = null;
-    secondCard = null;
-
-    firstCardId = null;
-    secondCardId = null;
-
+    resetTurn();
     boardLocked = false;
-
     updateScores();
     updateCurrentPlayer();
+}
 
+/**
+ * Prepares and renders the selected card layout.
+ */
+function prepareGameBoard(): void {
     createCards();
     shuffleCards();
     setBoardLayout();
     renderCards();
+}
+
+/**
+ * Starts a new game using the selected settings.
+ */
+function startGame(): void {
+    currentTheme = getSelectedTheme();
+    startingPlayer = getSelectedPlayer();
+    currentPlayer = startingPlayer;
+    boardSize = getSelectedBoardSize();
+
+    applyGameTheme();
+    resetGameState();
+    prepareGameBoard();
 
     settings.classList.add("hidden");
     game.classList.remove("hidden");
 }
 
-function createCards(): void {
+
+/**
+ * Gets the symbols required for the selected board size.
+ * @returns The selected card symbols.
+ */
+function getCardSymbols(): string[] {
     const pairCount = boardSize / 2;
-
-    const selectedSymbols =
-        themes[currentTheme].symbols.slice(
-            0,
-            pairCount
-        );
-
-    const duplicatedSymbols = [
-        ...selectedSymbols,
-        ...selectedSymbols
-    ];
-
-    cards = duplicatedSymbols.map(
-        (symbol, index) => {
-            return {
-                id: index + 1,
-                symbol,
-                isMatched: false
-            };
-        }
-    );
+    return themes[currentTheme].symbols.slice(0, pairCount);
 }
 
-function shuffleCards(): void {
-    for (
-        let i = cards.length - 1;
-        i > 0;
-        i--
-    ) {
-        const randomIndex =
-            Math.floor(
-                Math.random() * (i + 1)
-            );
+/**
+ * Creates a memory card with a unique ID.
+ * @param symbol - The card image source.
+ * @param index - The position in the card array.
+ * @returns The new memory card.
+ */
+function createMemoryCard(
+    symbol: string,
+    index: number
+): MemoryCard {
+    return {
+        id: index + 1,
+        symbol,
+        isMatched: false
+    };
+}
 
-        [
-            cards[i],
-            cards[randomIndex]
-        ] = [
-                cards[randomIndex],
-                cards[i]
-            ];
+/**
+ * Creates matching pairs for the current game.
+ */
+function createCards(): void {
+    const symbols = getCardSymbols();
+    const duplicatedSymbols = [...symbols, ...symbols];
+    cards = duplicatedSymbols.map(createMemoryCard);
+}
+
+
+
+/**
+ * Swaps two cards in the card array.
+ * @param firstIndex - The index of the first card.
+ * @param secondIndex - The index of the second card.
+ */
+function swapCards(firstIndex: number, secondIndex: number): void {
+    [cards[firstIndex], cards[secondIndex]] = [
+        cards[secondIndex],
+        cards[firstIndex]
+    ];
+}
+
+/**
+ * Generates a random index within the specified range.
+ * @param maxIndex - The highest possible index.
+ * @returns A random index between zero and maxIndex.
+ */
+function getRandomIndex(maxIndex: number): number {
+    return Math.floor(Math.random() * (maxIndex + 1));
+}
+
+/**
+ * Shuffles all memory cards using the Fisher-Yates algorithm.
+ */
+function shuffleCards(): void {
+    for (let index = cards.length - 1; index > 0; index--) {
+        const randomIndex = getRandomIndex(index);
+        swapCards(index, randomIndex);
     }
 }
 
+/**
+ * Applies the selected board size to the game board.
+ */
 function setBoardLayout(): void {
     board.classList.remove(
         "game-board--16",
@@ -531,178 +661,208 @@ function setBoardLayout(): void {
     );
 }
 
+
+/**
+ * Creates an image with the specified properties.
+ * @param source - The image source.
+ * @param alt - The alternative text.
+ * @param className - The CSS class name.
+ * @returns The configured image element.
+ */
+function createCardImage(
+    source: string,
+    alt: string,
+    className: string
+): HTMLImageElement {
+    const image = document.createElement("img");
+    image.src = source;
+    image.alt = alt;
+    image.draggable = false;
+    image.classList.add(className);
+    return image;
+}
+
+/**
+ * Creates the back side of a memory card.
+ * @returns The card back element.
+ */
+function createCardBack(): HTMLSpanElement {
+    const back = document.createElement("span");
+    back.classList.add("memory-card__back");
+    const image = createCardImage(
+        cardBacks[currentTheme],
+        `${themes[currentTheme].name} card back`,
+        "memory-card__back-image"
+    );
+    back.appendChild(image);
+    return back;
+}
+
+/**
+ * Creates the front side of a memory card.
+ * @param card - The card data.
+ * @returns The card front element.
+ */
+function createCardFront(card: MemoryCard): HTMLSpanElement {
+    const front = document.createElement("span");
+    front.classList.add("memory-card__front");
+    const image = createCardImage(
+        card.symbol,
+        "Memory card symbol",
+        "memory-card__image"
+    );
+    front.appendChild(image);
+    return front;
+}
+
+/**
+ * Creates the inner container of a memory card.
+ * @param card - The card data.
+ * @returns The card inner element.
+ */
+function createCardInner(card: MemoryCard): HTMLSpanElement {
+    const inner = document.createElement("span");
+    inner.classList.add("memory-card__inner");
+    inner.appendChild(createCardBack());
+    inner.appendChild(createCardFront(card));
+    return inner;
+}
+
+/**
+ * Creates a clickable memory card element.
+ * @param card - The card data.
+ * @returns The configured card button.
+ */
+function createCardElement(card: MemoryCard): HTMLButtonElement {
+    const element = document.createElement("button");
+    element.classList.add("memory-card");
+    element.type = "button";
+    element.dataset.id = card.id.toString();
+    element.setAttribute("aria-label", "Memory-Karte");
+    element.appendChild(createCardInner(card));
+    element.addEventListener("click", () => flipCard(element, card));
+    return element;
+}
+
+/**
+ * Renders all memory cards on the game board.
+ */
 function renderCards(): void {
     board.innerHTML = "";
 
     cards.forEach((card) => {
-        const cardElement =
-            document.createElement("button");
-
-        cardElement.classList.add(
-            "memory-card"
-        );
-
-        cardElement.type = "button";
-
-        cardElement.dataset.id =
-            card.id.toString();
-
-        cardElement.setAttribute(
-            "aria-label",
-            "Memory-Karte"
-        );
-
-        const cardInner =
-            document.createElement("span");
-
-        cardInner.classList.add(
-            "memory-card__inner"
-        );
-
-        const cardBack =
-            document.createElement("span");
-
-        cardBack.classList.add(
-            "memory-card__back"
-        );
-
-        const cardBackImage =
-            document.createElement("img");
-
-        cardBackImage.src =
-            cardBacks[currentTheme];
-
-        cardBackImage.alt =
-            `${themes[currentTheme].name} card back`;
-
-        cardBackImage.draggable = false;
-
-        cardBackImage.classList.add(
-            "memory-card__back-image"
-        );
-
-        cardBack.appendChild(
-            cardBackImage
-        );
-        const cardFront =
-            document.createElement("span");
-
-        cardFront.classList.add(
-            "memory-card__front"
-        );
-
-        const cardImage =
-            document.createElement("img");
-
-        cardImage.src = card.symbol;
-        cardImage.alt = "Memory card symbol";
-        cardImage.draggable = false;
-
-        cardImage.classList.add(
-            "memory-card__image"
-        );
-
-        cardFront.appendChild(cardImage);
-
-        cardInner.appendChild(cardBack);
-        cardInner.appendChild(cardFront);
-
-        cardElement.appendChild(cardInner);
-
-        cardElement.addEventListener(
-            "click",
-            () => {
-                flipCard(
-                    cardElement,
-                    card
-                );
-            }
-        );
-
-        board.appendChild(cardElement);
+        board.appendChild(createCardElement(card));
     });
 }
 
-function flipCard(
-    cardElement: HTMLButtonElement,
+
+/**
+ * Checks whether a memory card can be flipped.
+ * @param element - The selected card element.
+ * @param card - The selected card data.
+ * @returns True if the card can be flipped.
+ */
+function canFlipCard(
+    element: HTMLButtonElement,
+    card: MemoryCard
+): boolean {
+    return !boardLocked &&
+        !card.isMatched &&
+        element !== firstCard;
+}
+
+/**
+ * Stores the first selected memory card.
+ * @param element - The selected card element.
+ * @param card - The selected card data.
+ */
+function selectFirstCard(
+    element: HTMLButtonElement,
     card: MemoryCard
 ): void {
+    firstCard = element;
+    firstCardId = card.id;
+}
 
-    if (boardLocked) {
-        return;
-    }
-
-    if (card.isMatched) {
-        return;
-    }
-
-    if (cardElement === firstCard) {
-        return;
-    }
-
-    cardElement.classList.add("flipped");
-
-
-    if (firstCard === null) {
-        firstCard = cardElement;
-        firstCardId = card.id;
-
-        return;
-    }
-
-
-    secondCard = cardElement;
+/**
+ * Stores the second selected memory card.
+ * @param element - The selected card element.
+ * @param card - The selected card data.
+ */
+function selectSecondCard(
+    element: HTMLButtonElement,
+    card: MemoryCard
+): void {
+    secondCard = element;
     secondCardId = card.id;
-
     checkForMatch();
 }
 
-function checkForMatch(): void {
-    if (
-        firstCardId === null ||
-        secondCardId === null ||
-        firstCard === null ||
-        secondCard === null
-    ) {
+/**
+ * Flips a memory card and processes the selection.
+ * @param element - The selected card element.
+ * @param card - The selected card data.
+ */
+function flipCard(
+    element: HTMLButtonElement,
+    card: MemoryCard
+): void {
+    if (!canFlipCard(element, card)) return;
+
+    element.classList.add("flipped");
+
+    if (firstCard === null) {
+        selectFirstCard(element, card);
         return;
     }
 
-
-    const firstCardData =
-        cards.find(
-            (card) =>
-                card.id === firstCardId
-        );
-
-
-    const secondCardData =
-        cards.find(
-            (card) =>
-                card.id === secondCardId
-        );
-
-
-    if (
-        !firstCardData ||
-        !secondCardData
-    ) {
-        return;
-    }
-
-
-    if (
-        firstCardData.symbol ===
-        secondCardData.symbol
-    ) {
-        handleMatch(
-            firstCardData,
-            secondCardData
-        );
-    } else {
-        handleNoMatch();
-    }
+    selectSecondCard(element, card);
 }
 
+/**
+ * Finds a memory card by its ID.
+ * @param id - The ID of the card.
+ * @returns The matching card or undefined.
+ */
+function findCardById(id: number): MemoryCard | undefined {
+    return cards.find((card) => card.id === id);
+}
+
+/**
+ * Processes two selected cards and checks for a match.
+ * @param first - The first selected card.
+ * @param second - The second selected card.
+ */
+function compareCards(first: MemoryCard, second: MemoryCard): void {
+    if (first.symbol === second.symbol) {
+        handleMatch(first, second);
+        return;
+    }
+
+    handleNoMatch();
+}
+
+
+/**
+ * Checks whether the two selected cards match.
+ */
+function checkForMatch(): void {
+    if (firstCardId === null || secondCardId === null) return;
+
+    const first = findCardById(firstCardId);
+    const second = findCardById(secondCardId);
+
+    if (!first || !second) return;
+
+    compareCards(first, second);
+}
+
+
+/**
+ * Marks two matching cards and updates the game state.
+ * @param firstCardData - The first matched card data.
+ * @param secondCardData - The second matched card data.
+ */
 function handleMatch(
     firstCardData: MemoryCard,
     secondCardData: MemoryCard
@@ -710,19 +870,17 @@ function handleMatch(
 
     firstCardData.isMatched = true;
     secondCardData.isMatched = true;
-
     firstCard?.classList.add("matched");
     secondCard?.classList.add("matched");
-
     foundPairs++;
-
     addPoint();
-
     resetTurn();
-
     checkGameEnd();
 }
 
+/**
+ * Increments the score for the current player and updates the display.
+ */
 function addPoint(): void {
     if (currentPlayer === "blue") {
         blueScore++;
@@ -733,26 +891,29 @@ function addPoint(): void {
     updateScores();
 }
 
-function handleNoMatch(): void {
-    boardLocked = true;
 
-    setTimeout(() => {
-        firstCard?.classList.remove(
-            "flipped"
-        );
-
-        secondCard?.classList.remove(
-            "flipped"
-        );
-
-        resetTurn();
-
-        switchPlayer();
-
-        boardLocked = false;
-    }, 800);
+/**
+ * Flips unmatched cards back and prepares the next turn.
+ */
+function resetUnmatchedCards(): void {
+    firstCard?.classList.remove("flipped");
+    secondCard?.classList.remove("flipped");
+    resetTurn();
+    switchPlayer();
+    boardLocked = false;
 }
 
+/**
+ * Locks the board and schedules unmatched cards to flip back.
+ */
+function handleNoMatch(): void {
+    boardLocked = true;
+    setTimeout(resetUnmatchedCards, CARD_FLIP_DELAY);
+}
+
+/**
+ * Switches the current player and updates the display.
+ */
 function switchPlayer(): void {
     currentPlayer =
         currentPlayer === "blue"
@@ -762,6 +923,9 @@ function switchPlayer(): void {
     updateCurrentPlayer();
 }
 
+/**
+ * Updates the score displays for both players.
+ */
 function updateScores(): void {
     blueScoreDisplay.textContent =
         blueScore.toString();
@@ -770,27 +934,36 @@ function updateScores(): void {
         orangeScore.toString();
 }
 
+/**
+ * Returns the CSS class for the current player.
+ * @returns The current player's CSS class.
+ */
+function getCurrentPlayerClass(): string {
+    return currentPlayer === "blue"
+        ? "player-blue"
+        : "player-orange";
+}
 
+/**
+ * Updates the current player's icon and accessibility label.
+ */
 function updateCurrentPlayer(): void {
     currentPlayerDisplay.classList.remove(
         "player-blue",
         "player-orange"
     );
 
-    currentPlayerDisplay.classList.add(
-        currentPlayer === "blue"
-            ? "player-blue"
-            : "player-orange"
-    );
+    currentPlayerDisplay.classList.add(getCurrentPlayerClass());
 
     currentPlayerDisplay.setAttribute(
         "aria-label",
-        currentPlayer === "blue"
-            ? "Blue player"
-            : "Orange player"
+        `${currentPlayer === "blue" ? "Blue" : "Orange"} player`
     );
 }
 
+/**
+ * Resets the current turn and clears the selected card references.
+ */
 function resetTurn(): void {
     firstCard = null;
     secondCard = null;
@@ -799,6 +972,9 @@ function resetTurn(): void {
     secondCardId = null;
 }
 
+/**
+ * Checks if the game has ended and schedules the game-over screen.
+ */
 function checkGameEnd(): void {
     const pairCount = boardSize / 2;
 
@@ -808,11 +984,11 @@ function checkGameEnd(): void {
 
     boardLocked = true;
 
-    setTimeout(() => {
-        showGameOver();
-    }, 600);
+    setTimeout(showGameOver, GAME_END_DELAY);
 }
 
+/** Displays the game-over screen with final scores and schedules the winner display.
+ */
 function showGameOver(): void {
     game.classList.add("hidden");
 
@@ -824,72 +1000,95 @@ function showGameOver(): void {
 
     gameOver.classList.remove("hidden");
 
-    setTimeout(() => {
-        showWinner();
-    }, 1800);
+    setTimeout(showWinner, GAME_OVER_DURATION);
 }
 
+/**
+ * Displays the result image for the winning player.
+ * @param icon - The player's image source.
+ * @param name - The player's display name.
+ */
+function setWinnerIcon(icon: string, name: string): void {
+    resultIcon.innerHTML = `
+        <img
+            src="${icon}"
+            alt="${name}"
+            class="result-screen__image"
+        >
+    `;
+}
 
-function showWinner(): void {
-    gameOver.classList.add("hidden");
+/**
+ * Displays the winning player's information.
+ * @param name - The winner's display name.
+ * @param color - The winner's text color.
+ * @param icon - The winner's image source.
+ */
+function displayWinner(
+    name: string,
+    color: string,
+    icon: string
+): void {
+    winnerLabel.textContent = "The winner is";
+    winnerName.textContent = name;
+    winnerName.style.color = color;
+    setWinnerIcon(icon, name);
+}
 
-    winner.classList.remove(
-        "hidden",
-        "result-screen--draw"
-    );
+/**
+ * Displays the result when both players have equal scores.
+ */
+function displayDraw(): void {
+    winner.classList.add("result-screen--draw");
+    winnerLabel.textContent = "It's a";
+    winnerName.textContent = "DRAW";
+    winnerName.style.color = "";
+    resultIcon.innerHTML = `
+        <span
+            class="result-screen__draw-icon"
+            role="img"
+            aria-label="Draw"
+        ></span>
+    `;
+}
 
+/**
+ * Determines which player won the game.
+ */
+function displayGameResult(): void {
     if (blueScore > orangeScore) {
-        winnerLabel.textContent = "The winner is";
-        winnerName.textContent = "Blue Player";
-        winnerName.style.color = "#1da1f2";
-
-        resultIcon.innerHTML = `
-            <img
-                src="${playerBlueIcon}"
-                alt="Blue Player"
-                class="result-screen__image"
-            >
-        `;
-
+        displayWinner("Blue Player", "#1da1f2", playerBlueIcon);
         return;
     }
 
     if (orangeScore > blueScore) {
-        winnerLabel.textContent = "The winner is";
-        winnerName.textContent = "Orange Player";
-        winnerName.style.color = "#ff8a00";
-
-        resultIcon.innerHTML = `
-            <img
-                src="${playerOrangeIcon}"
-                alt="Orange Player"
-                class="result-screen__image"
-            >
-        `;
-
+        displayWinner("Orange Player", "#ff8a00", playerOrangeIcon);
         return;
     }
 
-    winner.classList.add("result-screen--draw");
-
-    winnerLabel.textContent = "It's a";
-    winnerName.textContent = "DRAW";
-    winnerName.style.color = "";
-
-    resultIcon.innerHTML = `
-    <span
-        class="result-screen__draw-icon"
-        role="img"
-        aria-label="Draw"
-    ></span>
-`;
+    displayDraw();
 }
 
+/**
+ * Opens the final result screen.
+ */
+function showWinner(): void {
+    gameOver.classList.add("hidden");
+    winner.classList.remove("hidden", "result-screen--draw");
+    displayGameResult();
+}
+
+/**
+ * Displays the settings screen and hides the home screen.
+ */
 function showSettings(): void {
     homeScreen.classList.add("hidden");
     settings.classList.remove("hidden");
 }
 
+/**
+ * Returns to the home screen and resets the game state.
+ */
 function goHome(): void {
     winner.classList.add("hidden");
     gameOver.classList.add("hidden");
@@ -901,15 +1100,22 @@ function goHome(): void {
     boardLocked = false;
 }
 
+/**
+ * Opens the exit confirmation modal.
+ */
 function openExitModal(): void {
     modal.classList.remove("hidden");
 }
 
-
+/**
+ * Closes the exit confirmation modal.
+ */
 function closeExitModal(): void {
     modal.classList.add("hidden");
 }
 
+/** Exits the current game and returns to the settings screen.
+ */
 function exitGame(): void {
     closeExitModal();
     game.classList.add("hidden");
@@ -922,6 +1128,9 @@ function exitGame(): void {
     boardLocked = false;
 }
 
+/**
+ * Adds event listeners to the main control buttons.
+ */
 playButton.addEventListener("click", showSettings);
 
 start.addEventListener(
