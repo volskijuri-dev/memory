@@ -80,3 +80,12 @@
         font-size: 30px;
     }
 }
+
+@media (max-width: 600px) {
+    .memory {
+        width: 100%;
+        min-height: 100vh;
+        padding: 16px;
+        justify-content: flex-start;
+    }
+}

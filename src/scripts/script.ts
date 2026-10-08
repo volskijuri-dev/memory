@@ -71,7 +71,6 @@ import iceCreamIcon from "../assets/image/food/ice-cream.svg?url";
 import saladIcon from "../assets/image/food/salad.svg?url";
 import cookiesIcon from "../assets/image/food/cookies.svg?url";
 
-// DA PROJECTS
 import soupIcon from "../assets/image/da-projects/soup.svg?url";
 import ramenIcon from "../assets/image/da-projects/ramen.svg?url";
 import eggsIcon from "../assets/image/da-projects/eggs.svg?url";

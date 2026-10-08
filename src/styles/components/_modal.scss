@@ -2,65 +2,40 @@
     position: fixed;
     inset: 0;
     z-index: 1000;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     padding: 20px;
-
     background: rgba(15, 25, 35, 0.55);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
 
-
-    /* -------------------------
-       MODAL CONTENT
-    ------------------------- */
-
     &__content {
         width: 100%;
         max-width: 430px;
-
         padding: 42px 34px;
-
         background: #ffffff;
         border-radius: 18px;
-
         text-align: center;
-
         box-shadow:
             0 18px 50px rgba(0, 0, 0, 0.28);
 
         h2 {
             max-width: 330px;
             margin: 0 auto 32px;
-
             color: #2d2d2d;
-
             font-size: 22px;
             font-weight: 700;
             line-height: 1.3;
         }
     }
 
-
-    /* -------------------------
-       BUTTON AREA
-    ------------------------- */
-
     &__actions {
         display: flex;
         justify-content: center;
         align-items: center;
-
         gap: 16px;
     }
-
-
-    /* -------------------------
-       BUTTONS
-    ------------------------- */
 
     &__button {
         min-width: 130px;
@@ -78,7 +53,6 @@
 
         &:hover {
             transform: translateY(-2px);
-
             box-shadow:
                 0 6px 14px rgba(0, 0, 0, 0.16);
         }
@@ -87,17 +61,11 @@
             transform: translateY(0);
         }
 
-
-        /* BACK BUTTON */
-
         &--back {
             background: #54cdbb;
             border-color: #54cdbb;
             color: #ffffff;
         }
-
-
-        /* EXIT BUTTON */
 
         &--exit {
             background: transparent;
@@ -110,11 +78,6 @@
         }
     }
 }
-
-
-/* =====================================================
-   CODE VIBES
-===================================================== */
 
 body:has(.game.theme-coding:not(.hidden)) {
 
@@ -135,11 +98,6 @@ body:has(.game.theme-coding:not(.hidden)) {
     }
 }
 
-
-/* =====================================================
-   GAMING
-===================================================== */
-
 body:has(.game.theme-gaming:not(.hidden)) {
 
     .modal__button--back {
@@ -158,11 +116,6 @@ body:has(.game.theme-gaming:not(.hidden)) {
         }
     }
 }
-
-
-/* =====================================================
-   DA PROJECTS
-===================================================== */
 
 body:has(.game.theme-academy:not(.hidden)) {
 
@@ -183,11 +136,6 @@ body:has(.game.theme-academy:not(.hidden)) {
     }
 }
 
-
-/* =====================================================
-   FOOD
-===================================================== */
-
 body:has(.game.theme-food:not(.hidden)) {
 
     .modal__button--back {
@@ -207,18 +155,12 @@ body:has(.game.theme-food:not(.hidden)) {
     }
 }
 
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
 @media (max-width: 500px) {
 
     .modal {
 
         &__content {
             padding: 32px 20px;
-
             border-radius: 15px;
 
             h2 {

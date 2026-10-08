@@ -15,10 +15,6 @@
         }
     }
 
-    /* -------------------------
-       INNER CARD
-    ------------------------- */
-
     &__inner {
         position: relative;
         display: block;
@@ -35,10 +31,6 @@
             0 6px 14px rgba(0, 0, 0, 0.15);
     }
 
-    /* -------------------------
-       FRONT + BACK
-    ------------------------- */
-
     &__front,
     &__back {
         position: absolute;
@@ -51,10 +43,6 @@
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
     }
-
-    /* -------------------------
-       FIGMA CARD BACK
-    ------------------------- */
 
     &__back {
         background: transparent;
@@ -70,10 +58,6 @@
         user-select: none;
     }
 
-    /* -------------------------
-       CARD FRONT
-    ------------------------- */
-
     &__front {
         background: #ffffff;
         color: #222222;
@@ -88,10 +72,6 @@
         pointer-events: none;
         user-select: none;
     }
-
-    /* -------------------------
-       FLIPPED / MATCHED
-    ------------------------- */
 
     &.flipped,
     &.matched {

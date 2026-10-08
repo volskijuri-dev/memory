@@ -7,11 +7,6 @@
     background: #2d5868;
     border-radius: 20px;
 
-
-    /* -------------------------
-       HEADER
-    ------------------------- */
-
     &__header {
         width: 100%;
         max-width: 940px;
@@ -25,11 +20,6 @@
         background: #586681;
         color: #ffffff;
     }
-
-
-    /* -------------------------
-       SCORE BLUE / ORANGE
-    ------------------------- */
 
     &__scores {
         justify-self: start;
@@ -58,11 +48,6 @@
         }
     }
 
-
-    /* -------------------------
-       CURRENT PLAYER
-    ------------------------- */
-
     &__player {
         justify-self: center;
         display: flex;
@@ -73,10 +58,6 @@
         font-weight: 500;
         white-space: nowrap;
     }
-
-    /* -------------------------
-   EXIT BUTTON
-------------------------- */
 
     #exit-button {
         justify-self: end;
@@ -112,11 +93,6 @@
         }
     }
 
-
-    /* -------------------------
-       GAME BOARD
-    ------------------------- */
-
     .game-board {
         margin: 0 auto;
 
@@ -132,11 +108,6 @@
             max-width: 560px;
         }
     }
-
-
-    /* -------------------------
-       MEMORY CARDS
-    ------------------------- */
 
     .memory-card {
 
@@ -154,11 +125,6 @@
     }
 }
 
-/* -------------------------
-   EXIT BUTTON THEME COLORS
-------------------------- */
-
-/* CODE VIBES */
 .game.theme-coding #exit-button {
     border-color: #4dd5bc;
 
@@ -167,7 +133,6 @@
     }
 }
 
-/* GAMING */
 .game.theme-gaming #exit-button {
     border-color: #ed1b76;
 
@@ -176,7 +141,6 @@
     }
 }
 
-/* DA PROJECTS */
 .game.theme-academy #exit-button {
     border-color: #1e7594;
 
@@ -185,7 +149,6 @@
     }
 }
 
-/* FOOD */
 .game.theme-food #exit-button {
     border-color: #f3832d;
 
@@ -193,11 +156,6 @@
         background: #f3832d;
     }
 }
-
-
-/* -------------------------
-   PLAYER COLORS
-------------------------- */
 
 .current-player-icon {
     display: inline-block;
@@ -223,55 +181,66 @@
     background-color: #ff9d32;
 }
 
-
-/* -------------------------
-   TABLET
-------------------------- */
-
 @media (max-width: 800px) {
-
     .game {
-        min-height: 100vh;
-        padding: 24px 16px;
+        min-height: auto;
+        padding: 24px 16px 32px;
 
         &__header {
-            grid-template-columns:
-                1fr;
-
+            grid-template-columns: 1fr auto;
             gap: 16px;
-            margin-bottom: 32px;
-            text-align: center;
+            margin-bottom: 28px;
+            padding: 14px;
         }
 
-        &__scores,
-        &__player,
-        #exit-button {
+        &__scores {
+            justify-self: start;
+        }
+
+        &__player {
+            grid-column: 1 / -1;
+            grid-row: 2;
             justify-self: center;
+        }
+
+        #exit-button {
+            grid-column: 2;
+            grid-row: 1;
+            justify-self: end;
         }
     }
 }
 
-
-/* -------------------------
-   MOBILE
-------------------------- */
-
 @media (max-width: 500px) {
-
     .game {
-        padding:
-            18px 10px 30px;
+        padding: 14px 10px 24px;
+        border-radius: 16px;
 
         &__header {
-            padding: 14px 10px;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding: 12px 10px;
+        }
+
+        &__scores {
+            gap: 6px;
+            padding: 7px;
+            font-size: 12px;
         }
 
         &__player {
-            font-size: 17px;
+            font-size: 16px;
+        }
+
+        #exit-button {
+            gap: 5px;
+            padding: 8px 10px;
+            font-size: 12px;
         }
 
         .game-board {
             width: 100%;
+            gap: 6px;
         }
     }
 }
