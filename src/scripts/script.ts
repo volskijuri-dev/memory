@@ -1,13 +1,11 @@
 import "../styles/style.scss";
 
-import type {ThemeName, Player, BoardSize, MemoryCard} from "./game-types";
-import {CARD_FLIP_DELAY, GAME_END_DELAY, GAME_OVER_DURATION} from "./game-constants";
+import type { ThemeName, Player, BoardSize, MemoryCard } from "./game-types";
+import { CARD_FLIP_DELAY, GAME_END_DELAY } from "./game-constants";
 import { createCards, shuffleCards, setBoardLayout, renderCards } from "./game-cards";
 import { getSelectedTheme, getSelectedPlayer, getSelectedBoardSize, updateSettingsSummary } from "./game-settings";
 
-import playerBlueIcon from "../assets/image/result/player-blue.svg?url";
-import playerOrangeIcon from "../assets/image/result/player-orange.svg?url";
-
+import { showGameOver, applyGameTheme } from "./game-results";
 
 import {
     homeScreen,
@@ -25,11 +23,6 @@ import {
     currentPlayerDisplay,
     gameOver,
     winner,
-    finalBlueScore,
-    finalOrangeScore,
-    winnerLabel,
-    winnerName,
-    resultIcon,
     home,
 } from "./game-elements";
 
@@ -37,35 +30,15 @@ let currentTheme: ThemeName = "coding";
 let startingPlayer: Player = "blue";
 let currentPlayer: Player = "blue";
 let boardSize: BoardSize = 16;
-
 let cards: MemoryCard[] = [];
-
 let firstCard: HTMLButtonElement | null = null;
 let secondCard: HTMLButtonElement | null = null;
-
 let firstCardId: number | null = null;
 let secondCardId: number | null = null;
-
 let blueScore = 0;
 let orangeScore = 0;
-
 let foundPairs = 0;
 let boardLocked = false;
-
-/**
- * Applies the selected theme to all game screens.
- */
-function applyGameTheme(): void {
-    const themeClasses = [
-        "theme-coding", "theme-gaming",
-        "theme-academy", "theme-food"
-    ];
-
-    [game, gameOver, winner].forEach((screen) => {
-        screen.classList.remove(...themeClasses);
-        screen.classList.add(`theme-${currentTheme}`);
-    });
-}
 
 /**
  * Resets scores, selected cards, and game state.
@@ -98,15 +71,12 @@ function startGame(): void {
     startingPlayer = getSelectedPlayer();
     currentPlayer = startingPlayer;
     boardSize = getSelectedBoardSize();
-
-    applyGameTheme();
+    applyGameTheme(currentTheme);
     resetGameState();
     prepareGameBoard();
-
     settings.classList.add("hidden");
     game.classList.remove("hidden");
 }
-
 
 /**
  * Checks whether a memory card can be flipped.
@@ -190,25 +160,19 @@ function compareCards(first: MemoryCard, second: MemoryCard): void {
         handleMatch(first, second);
         return;
     }
-
     handleNoMatch();
 }
-
 
 /**
  * Checks whether the two selected cards match.
  */
 function checkForMatch(): void {
     if (firstCardId === null || secondCardId === null) return;
-
     const first = findCardById(firstCardId);
     const second = findCardById(secondCardId);
-
     if (!first || !second) return;
-
     compareCards(first, second);
 }
-
 
 /**
  * Marks two matching cards and updates the game state.
@@ -239,10 +203,8 @@ function addPoint(): void {
     } else {
         orangeScore++;
     }
-
     updateScores();
 }
-
 
 /**
  * Flips unmatched cards back and prepares the next turn.
@@ -306,7 +268,6 @@ function updateCurrentPlayer(): void {
     );
 
     currentPlayerDisplay.classList.add(getCurrentPlayerClass());
-
     currentPlayerDisplay.setAttribute(
         "aria-label",
         `${currentPlayer === "blue" ? "Blue" : "Orange"} player`
@@ -319,7 +280,6 @@ function updateCurrentPlayer(): void {
 function resetTurn(): void {
     firstCard = null;
     secondCard = null;
-
     firstCardId = null;
     secondCardId = null;
 }
@@ -336,98 +296,7 @@ function checkGameEnd(): void {
 
     boardLocked = true;
 
-    setTimeout(showGameOver, GAME_END_DELAY);
-}
-
-/** Displays the game-over screen with final scores and schedules the winner display.
- */
-function showGameOver(): void {
-    game.classList.add("hidden");
-
-    finalBlueScore.textContent =
-        blueScore.toString();
-
-    finalOrangeScore.textContent =
-        orangeScore.toString();
-
-    gameOver.classList.remove("hidden");
-
-    setTimeout(showWinner, GAME_OVER_DURATION);
-}
-
-/**
- * Displays the result image for the winning player.
- * @param icon - The player's image source.
- * @param name - The player's display name.
- */
-function setWinnerIcon(icon: string, name: string): void {
-    resultIcon.innerHTML = `
-        <img
-            src="${icon}"
-            alt="${name}"
-            class="result-screen__image"
-        >
-    `;
-}
-
-/**
- * Displays the winning player's information.
- * @param name - The winner's display name.
- * @param color - The winner's text color.
- * @param icon - The winner's image source.
- */
-function displayWinner(
-    name: string,
-    color: string,
-    icon: string
-): void {
-    winnerLabel.textContent = "The winner is";
-    winnerName.textContent = name;
-    winnerName.style.color = color;
-    setWinnerIcon(icon, name);
-}
-
-/**
- * Displays the result when both players have equal scores.
- */
-function displayDraw(): void {
-    winner.classList.add("result-screen--draw");
-    winnerLabel.textContent = "It's a";
-    winnerName.textContent = "DRAW";
-    winnerName.style.color = "";
-    resultIcon.innerHTML = `
-        <span
-            class="result-screen__draw-icon"
-            role="img"
-            aria-label="Draw"
-        ></span>
-    `;
-}
-
-/**
- * Determines which player won the game.
- */
-function displayGameResult(): void {
-    if (blueScore > orangeScore) {
-        displayWinner("Blue Player", "#1da1f2", playerBlueIcon);
-        return;
-    }
-
-    if (orangeScore > blueScore) {
-        displayWinner("Orange Player", "#ff8a00", playerOrangeIcon);
-        return;
-    }
-
-    displayDraw();
-}
-
-/**
- * Opens the final result screen.
- */
-function showWinner(): void {
-    gameOver.classList.add("hidden");
-    winner.classList.remove("hidden", "result-screen--draw");
-    displayGameResult();
+    setTimeout(() => showGameOver(blueScore, orangeScore), GAME_END_DELAY);
 }
 
 /**
@@ -472,11 +341,8 @@ function exitGame(): void {
     closeExitModal();
     game.classList.add("hidden");
     settings.classList.remove("hidden");
-
     board.innerHTML = "";
-
     resetTurn();
-
     boardLocked = false;
 }
 
@@ -484,7 +350,6 @@ function exitGame(): void {
  * Adds event listeners to the main control buttons.
  */
 playButton.addEventListener("click", showSettings);
-
 start.addEventListener(
     "click",
     startGame
@@ -499,7 +364,6 @@ backToGame.addEventListener(
     "click",
     closeExitModal
 );
-
 
 confirmExit.addEventListener(
     "click",
