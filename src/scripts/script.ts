@@ -1,8 +1,8 @@
 import "../styles/style.scss";
 
 import type {ThemeName, Player, BoardSize, MemoryCard} from "./game-types";
-import { cardBacks, themes } from "./game-themes";
 import {CARD_FLIP_DELAY, GAME_END_DELAY, GAME_OVER_DURATION} from "./game-constants";
+import { createCards, shuffleCards, setBoardLayout, renderCards } from "./game-cards";
 import { getSelectedTheme, getSelectedPlayer, getSelectedBoardSize, updateSettingsSummary } from "./game-settings";
 
 import playerBlueIcon from "../assets/image/result/player-blue.svg?url";
@@ -84,10 +84,10 @@ function resetGameState(): void {
  * Prepares and renders the selected card layout.
  */
 function prepareGameBoard(): void {
-    createCards();
-    shuffleCards();
-    setBoardLayout();
-    renderCards();
+    cards = createCards(currentTheme, boardSize);
+    shuffleCards(cards);
+    setBoardLayout(boardSize);
+    renderCards(cards, currentTheme, flipCard);
 }
 
 /**
@@ -105,184 +105,6 @@ function startGame(): void {
 
     settings.classList.add("hidden");
     game.classList.remove("hidden");
-}
-
-
-/**
- * Gets the symbols required for the selected board size.
- * @returns The selected card symbols.
- */
-function getCardSymbols(): string[] {
-    const pairCount = boardSize / 2;
-    return themes[currentTheme].symbols.slice(0, pairCount);
-}
-
-/**
- * Creates a memory card with a unique ID.
- * @param symbol - The card image source.
- * @param index - The position in the card array.
- * @returns The new memory card.
- */
-function createMemoryCard(
-    symbol: string,
-    index: number
-): MemoryCard {
-    return {
-        id: index + 1,
-        symbol,
-        isMatched: false
-    };
-}
-
-/**
- * Creates matching pairs for the current game.
- */
-function createCards(): void {
-    const symbols = getCardSymbols();
-    const duplicatedSymbols = [...symbols, ...symbols];
-    cards = duplicatedSymbols.map(createMemoryCard);
-}
-
-
-
-/**
- * Swaps two cards in the card array.
- * @param firstIndex - The index of the first card.
- * @param secondIndex - The index of the second card.
- */
-function swapCards(firstIndex: number, secondIndex: number): void {
-    [cards[firstIndex], cards[secondIndex]] = [
-        cards[secondIndex],
-        cards[firstIndex]
-    ];
-}
-
-/**
- * Generates a random index within the specified range.
- * @param maxIndex - The highest possible index.
- * @returns A random index between zero and maxIndex.
- */
-function getRandomIndex(maxIndex: number): number {
-    return Math.floor(Math.random() * (maxIndex + 1));
-}
-
-/**
- * Shuffles all memory cards using the Fisher-Yates algorithm.
- */
-function shuffleCards(): void {
-    for (let index = cards.length - 1; index > 0; index--) {
-        const randomIndex = getRandomIndex(index);
-        swapCards(index, randomIndex);
-    }
-}
-
-/**
- * Applies the selected board size to the game board.
- */
-function setBoardLayout(): void {
-    board.classList.remove(
-        "game-board--16",
-        "game-board--24",
-        "game-board--36"
-    );
-
-    board.classList.add(
-        `game-board--${boardSize}`
-    );
-}
-
-
-/**
- * Creates an image with the specified properties.
- * @param source - The image source.
- * @param alt - The alternative text.
- * @param className - The CSS class name.
- * @returns The configured image element.
- */
-function createCardImage(
-    source: string,
-    alt: string,
-    className: string
-): HTMLImageElement {
-    const image = document.createElement("img");
-    image.src = source;
-    image.alt = alt;
-    image.draggable = false;
-    image.classList.add(className);
-    return image;
-}
-
-/**
- * Creates the back side of a memory card.
- * @returns The card back element.
- */
-function createCardBack(): HTMLSpanElement {
-    const back = document.createElement("span");
-    back.classList.add("memory-card__back");
-    const image = createCardImage(
-        cardBacks[currentTheme],
-        `${themes[currentTheme].name} card back`,
-        "memory-card__back-image"
-    );
-    back.appendChild(image);
-    return back;
-}
-
-/**
- * Creates the front side of a memory card.
- * @param card - The card data.
- * @returns The card front element.
- */
-function createCardFront(card: MemoryCard): HTMLSpanElement {
-    const front = document.createElement("span");
-    front.classList.add("memory-card__front");
-    const image = createCardImage(
-        card.symbol,
-        "Memory card symbol",
-        "memory-card__image"
-    );
-    front.appendChild(image);
-    return front;
-}
-
-/**
- * Creates the inner container of a memory card.
- * @param card - The card data.
- * @returns The card inner element.
- */
-function createCardInner(card: MemoryCard): HTMLSpanElement {
-    const inner = document.createElement("span");
-    inner.classList.add("memory-card__inner");
-    inner.appendChild(createCardBack());
-    inner.appendChild(createCardFront(card));
-    return inner;
-}
-
-/**
- * Creates a clickable memory card element.
- * @param card - The card data.
- * @returns The configured card button.
- */
-function createCardElement(card: MemoryCard): HTMLButtonElement {
-    const element = document.createElement("button");
-    element.classList.add("memory-card");
-    element.type = "button";
-    element.dataset.id = card.id.toString();
-    element.setAttribute("aria-label", "Memory-Karte");
-    element.appendChild(createCardInner(card));
-    element.addEventListener("click", () => flipCard(element, card));
-    return element;
-}
-
-/**
- * Renders all memory cards on the game board.
- */
-function renderCards(): void {
-    board.innerHTML = "";
-
-    cards.forEach((card) => {
-        board.appendChild(createCardElement(card));
-    });
 }
 
 
