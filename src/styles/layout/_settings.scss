@@ -79,11 +79,19 @@
             font-size: 15px;
             cursor: pointer;
 
+
+            &:hover {
+                color: #252525;
+                font-weight: 700;
+                transform: scale(1.05);
+                transform-origin: left center;
+            }
+
             &:has(input[type="radio"]:checked) {
                 font-weight: 700;
             }
 
-            &:has(input[type="radio"]:checked)::after {
+            &:is(:hover, :has(input[type="radio"]:checked))::after {
                 content: "";
                 position: absolute;
                 left: calc(100% + 12px);
@@ -94,7 +102,7 @@
                 transform: translateY(-50%);
             }
 
-            &:has(input[type="radio"]:checked)::before {
+            &:is(:hover, :has(input[type="radio"]:checked))::before {
                 content: "";
                 position: absolute;
                 left: calc(100% + 50px);
@@ -124,12 +132,12 @@
     }
 
     &__summary {
-        display: flex;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: 110px 4px 65px 4px 65px 78px;
         align-items: center;
+        justify-content: space-between;
         width: 460px;
-        flex-wrap: nowrap;
-        gap: 20px;
+        gap: 0;
         padding: 8px 10px;
         background: #dfd0be;
         border-radius: 14px;
@@ -137,6 +145,12 @@
         span {
             font-size: 16px;
             white-space: nowrap;
+        }
+
+        #selected-theme,
+        #selected-player,
+        #selected-size {
+            text-align: center;
         }
     }
 
@@ -234,10 +248,14 @@
         }
 
         &__summary {
+            display: grid;
+            grid-template-columns:
+                minmax(0, 110fr) 4px minmax(0, 65fr) 4px minmax(0, 65fr) 78px;
+            align-items: center;
+            justify-content: space-between;
             width: 100%;
             max-width: 460px;
-            flex-wrap: wrap;
-            gap: 10px;
+            gap: 0;
         }
     }
 
@@ -270,7 +288,9 @@
 
             label {
                 font-size: 15px;
+
                 &:has(input[type="radio"]:checked) {
+
                     &::before,
                     &::after {
                         display: none;
